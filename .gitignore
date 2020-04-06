@@ -1,0 +1,6 @@
+dist
+node_modules
+### OSX ###
+.DS_Store
+.AppleDouble
+.LSOverride
