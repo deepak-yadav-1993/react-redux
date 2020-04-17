@@ -1,5 +1,6 @@
 .App {
   text-align: center;
+  background-color: white;
 }
 
 .App-logo {
@@ -14,14 +15,14 @@
 }
 
 .App-header {
-  background-color: #282c34;
+  /* background-color: #282c34; */
   min-height: 100vh;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   font-size: calc(10px + 2vmin);
-  color: white;
+  color: black;
 }
 
 .App-link {
@@ -35,4 +36,15 @@
   to {
     transform: rotate(360deg);
   }
+}
+.my-facebook-button-class{
+  box-shadow: none !important;
+  border-radius: 1px !important;
+  border: 1px solid rgba(0, 0, 0, 0.24) !important;
+  font-size: 14px !important;
+}
+.my-facebook-button-class:hover{
+  border: 1px solid rgba(222, 222, 222, 0.45) !important;
+  box-shadow: 6px 6px 10px 0 rgba(222, 222, 222, 0.6),
+  -2px -2px 4px 0 rgba(222, 222, 222, 0.45) !important;
 }
