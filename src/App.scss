@@ -1,0 +1,40 @@
+$base-back-color: rgb(0, 42, 58);
+$body-font-size: 14px;
+$bold: 600;
+$color-white: white;
+
+.generic-color {
+  text-align: center;
+  background-color: $base-back-color !important;
+}
+.google-auth {
+  div,
+  span,
+  button {
+    background-color: $base-back-color!important;
+    color: $color-white !important;
+    font-weight: $bold !important;
+  }
+}
+
+.component.main {
+  /* background-color: #282c34; */
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: black;
+}
+
+.my-google-button-class {
+  box-shadow: none !important;
+  border-radius: 1px !important;
+  border: 1px solid $color-white !important;
+}
+// .my-google-button-class:hover{
+//   /* border: 1px solid white !important; */
+//   box-shadow: 6px 6px 10px 0 rgba(0, 42, 58, 0.6),
+//   -2px -2px 4px 0 rgba(0, 42, 58, 0.45) !important;
+// }
