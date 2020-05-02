@@ -10,6 +10,7 @@ import {
   loginSuccess,
   logoutSuccess,
   authLoading,
+  authLoadingEnd
 } from "../redux/ActionCreaters";
 
 const mapStateToProps = (state: any) => {
@@ -23,6 +24,7 @@ const mapDispatchToProps = (dispatch: any) => {
     loginSuccess: (userdata: Object) => dispatch(loginSuccess(userdata)),
     logoutSuccess: () => dispatch(logoutSuccess()),
     authLoading: () => dispatch(authLoading()),
+    authLoadingEnd: () => dispatch(authLoadingEnd())
   };
 };
 
@@ -38,19 +40,16 @@ class MainComponent extends React.Component<any, any> {
   }
 
   render() {
-    const loggedInDiv = this.props.loginState.loggedIn ? (
-      <div>loggedIn</div>
-    ) : (
-      <div>Not loggedIN</div>
-    );
+    const loading = this.props.loginState.isLoading ? <LinearProgress color="secondary" style={{width: "100%", height: "4px"}}/> : <div style={{width: "100%", height: "4px"}}></div> ;
     return (
       <div className={`${containerClass} ${colorClass}`}>
         <GoogleAuthComponent
+          loggedIn={this.props.loginState.loggedIn}
           onLogIn={this.props.loginSuccess}
           onLogout={this.props.logoutSuccess}
           authLoading={this.props.authLoading}
+          authLoadingEnd={this.props.authLoadingEnd}
         />
-        {loggedInDiv}
         <BottomNavigation value={"test"} showLabels className={colorClass}>
           <BottomNavigationAction
             label="Recents"
@@ -68,7 +67,7 @@ class MainComponent extends React.Component<any, any> {
             icon={<LocationOnIcon style={{ color: iconStyleConfigs.color }} />}
           />
         </BottomNavigation>
-        <LinearProgress color="secondary" style={{width: "100%"}}/>
+        {loading}
       </div>
     );
   }

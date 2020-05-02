@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { GoogleLogin } from "react-google-login";
 import { GoogleLogout } from "react-google-login";
 import { clientId, ApiKey } from "../shared/GoogleAuthCreds";
+import { useGoogleLogin } from "react-google-login";
 
 const containerClass = "component google-auth";
 
@@ -14,6 +15,7 @@ function GoogleAuth(props: any) {
       googleId: response.profileObj.googleId,
     };
     props.onLogIn(userProfile);
+    props.authLoadingEnd();
     console.log(userProfile);
   };
   // componentDidMount() {
@@ -34,29 +36,33 @@ function GoogleAuth(props: any) {
 
   const loginfailed = (response: Object) => {
     console.log(response);
+    props.authLoadingEnd();
   };
 
   const logout = () => {
     console.log("Logged Out");
     props.onLogout();
+    props.authLoadingEnd();
   };
 
   return (
-    <div className={containerClass}>
-      <GoogleLogin
-        clientId={clientId}
-        // onClick={ props.authLoading() }
-        className="my-google-button-class"
-        onSuccess={loginSuccess}
-        onFailure={loginfailed}
-        buttonText="Login with Google"
-      ></GoogleLogin>
-      <GoogleLogout
-        clientId={clientId}
-        className="my-google-button-class"
-        buttonText="Logout"
-        onLogoutSuccess={logout}
-      ></GoogleLogout>
+    <div className={containerClass} onClick={(e) => props.authLoading()}>
+      {props.loggedIn ? (
+        <GoogleLogout
+          clientId={clientId}
+          className="my-google-button-class"
+          buttonText="Logout"
+          onLogoutSuccess={logout}
+        ></GoogleLogout>
+      ) : (
+        <GoogleLogin
+          clientId={clientId}
+          className="my-google-button-class"
+          onSuccess={loginSuccess}
+          onFailure={loginfailed}
+          buttonText="Login with Google"
+        ></GoogleLogin>
+      )}
     </div>
   );
 }

@@ -12,3 +12,7 @@ export const logoutSuccess = () => ({
 export const authLoading = () => ({
     type: ActionTypes.AUTH_LOADING
 });
+
+export const authLoadingEnd = () => ({
+    type: ActionTypes.AUTH_LOADING_END
+});
