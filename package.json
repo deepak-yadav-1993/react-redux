@@ -12,6 +12,7 @@
     "@types/node": "^12.12.34",
     "@types/react": "^16.9.32",
     "@types/react-dom": "^16.9.6",
+    "lodash": "^4.17.15",
     "node-sass": "^4.14.0",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
@@ -19,6 +20,8 @@
     "react-redux": "^7.2.0",
     "react-scripts": "3.4.1",
     "redux": "^4.0.5",
+    "redux-devtools-extension": "^2.13.8",
+    "redux-thunk": "^2.3.0",
     "typescript": "^3.7.5"
   },
   "scripts": {

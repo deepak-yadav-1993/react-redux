@@ -1,4 +1,4 @@
-import { authStore } from "./stores/authStore";
+import { authStore } from "./reducers/authStore";
 import { createStore, combineReducers } from "redux";
 
 export const ConfigureStore = () => {

@@ -1,12 +1,12 @@
 import * as ActionTypes from "./ActionTypes";
 
 export const loginSuccess = (userData) => ({
-    type: ActionTypes.LOGIN_SUCCESS,
+    type: ActionTypes.USER_LOGGEDIN,
     payload: userData
 });
 
 export const logoutSuccess = () => ({
-    type: ActionTypes.LOGOUT_SUCCESS
+    type: ActionTypes.USER_LOGGEDOUT
 });
 
 export const authLoading = () => ({

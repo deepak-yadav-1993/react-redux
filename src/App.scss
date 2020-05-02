@@ -1,17 +1,18 @@
-$base-back-color: rgb(0, 42, 58);
+$base-background-color: rgb(0, 42, 58);
 $body-font-size: 14px;
 $bold: 600;
 $color-white: white;
+$base-contrast-colr: rgb(255, 106, 130);
 
 .generic-color {
   text-align: center;
-  background-color: $base-back-color !important;
+  background-color: $base-background-color !important;
 }
 .google-auth {
   div,
   span,
   button {
-    background-color: $base-back-color!important;
+    background-color: $base-background-color !important;
     color: $color-white !important;
     font-weight: $bold !important;
   }
@@ -25,7 +26,13 @@ $color-white: white;
   align-items: center;
   justify-content: center;
   font-size: calc(10px + 2vmin);
-  color: black;
+  color: $color-white;
+}
+.MuiLinearProgress-colorSecondary {
+  background-color: $color-white !important;
+}
+.MuiLinearProgress-barColorSecondary {
+  background-color: $base-background-color !important;
 }
 
 .my-google-button-class {
