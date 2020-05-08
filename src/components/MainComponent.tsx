@@ -6,6 +6,7 @@ import RestoreIcon from "@material-ui/icons/Restore";
 import LocationOnIcon from "@material-ui/icons/LocationOn";
 import { connect } from "react-redux";
 import { LinearProgress } from '@material-ui/core';
+// import banner from "../images/banner.ai";
 import {
   loginSuccess,
   logoutSuccess,
@@ -43,6 +44,7 @@ class MainComponent extends React.Component<any, any> {
     const loading = this.props.loginState.isLoading ? <LinearProgress color="secondary" style={{width: "100%", height: "4px"}}/> : <div style={{width: "100%", height: "4px"}}></div> ;
     return (
       <div className={`${containerClass} ${colorClass}`}>
+        {/* <img src={banner} alt="banner" /> */}
         <GoogleAuthComponent
           loggedIn={this.props.loginState.loggedIn}
           onLogIn={this.props.loginSuccess}
