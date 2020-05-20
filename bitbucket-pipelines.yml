@@ -11,6 +11,7 @@ pipelines:
         caches:
           - node
         script: # Modify the commands below to build your repository.
+          - unset CI
           - npm install
           - npm run build
           - docker login -u $DOCKER_HUB_ID -p $DOCKER_HUB_PASSWORD
