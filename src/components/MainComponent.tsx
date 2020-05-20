@@ -63,11 +63,11 @@ class MainComponent extends React.Component<any, any> {
             style={{ color: iconStyleConfigs.color }}
             icon={<FavoriteIcon style={{ color: iconStyleConfigs.color }} />}
           />
-          <BottomNavigationAction
+          {/* <BottomNavigationAction
             label="Nearby"
             style={{ color: iconStyleConfigs.color }}
             icon={<LocationOnIcon style={{ color: iconStyleConfigs.color }} />}
-          />
+          /> */}
         </BottomNavigation>
         {loading}
       </div>
