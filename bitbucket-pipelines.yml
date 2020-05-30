@@ -7,15 +7,32 @@ image: node:12.11.1
 
 pipelines:
   default:
-    - step:
+    - step: &build-image
         caches:
           - node
         script: # Modify the commands below to build your repository.
           - unset CI
           - npm install
           - npm run build
-          - docker login -u $DOCKER_HUB_ID -p $DOCKER_HUB_PASSWORD
-          - npm run publish
+          #- docker login -u $DOCKER_HUB_ID -p $DOCKER_HUB_PASSWORD
+          #- npm run publish
+          - docker build -t personal_finance_app:latest .
+          - docker save --output tmp-image.docker personal_finance_app
+        artifacts:
+          - tmp-image.docker
+    - step: &push-gcp
+        name: Push to GCP registry
+        image: google/cloud-sdk:alpine
+        script:
+          - docker load --input ./tmp-image.docker
+          - echo $GCLOUD_API_KEYFILE | base64 -d > ./gcloud-api-key.json
+          - gcloud auth activate-service-account --key-file gcloud-api-key.json
+          - gcloud config set project $GCLOUD_PROJECT
+          - export IMAGE_NAME=gcr.io/spa/personal_finance_app
+          - docker tag personal_finance_app ${IMAGE_NAME}
+          # Login to google docker hub
+          - cat ./gcloud-api-key.json | docker login -u _json_key --password-stdin https://gcr.io
+          - docker push ${IMAGE_NAME}
 
 options:
   docker: true
