@@ -31,11 +31,11 @@ pipelines:
           - cat ./gcloud-api-key.json
           - gcloud auth activate-service-account --key-file gcloud-api-key.json
           - gcloud config set project $GCLOUD_PROJECT
-          - export IMAGE_NAME=gcr.io/personal-finance-1584665392658/
+          - export IMAGE_NAME=gcr.io/personal-finance-1584665392658
           - docker tag personal_finance_app ${IMAGE_NAME}
           # Login to google docker hub
           - cat ./gcloud-api-key.json | docker login -u _json_key --password-stdin https://gcr.io
-          - docker push ${IMAGE_NAME}
+          - docker push gcr.io/personal-finance-1584665392658/personal_finance_app:latest
 
 options:
   docker: true
