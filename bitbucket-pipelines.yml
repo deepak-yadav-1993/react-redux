@@ -25,10 +25,7 @@ pipelines:
         image: google/cloud-sdk:alpine
         script:
           - docker load --input ./tmp-image.docker
-          - echo $GCLOUD_API_KEYFILE
-          - echo $GCLOUD_PROJECT
           - echo $GCLOUD_API_KEYFILE | base64 -d > ./gcloud-api-key.json
-          - cat ./gcloud-api-key.json
           - gcloud auth activate-service-account --key-file gcloud-api-key.json
           - gcloud config set project $GCLOUD_PROJECT
           - export IMAGE_NAME=gcr.io/personal-finance-1584665392658/personal_finance_app
