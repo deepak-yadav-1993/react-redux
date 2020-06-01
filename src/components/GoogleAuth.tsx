@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { GoogleLogin } from "react-google-login";
 import { GoogleLogout } from "react-google-login";
 import { clientId, ApiKey } from "../shared/GoogleAuthCreds";
+import axios from "axios";
 
 const containerClass = "component google-auth";
 
@@ -11,6 +12,27 @@ class GoogleAuth extends React.Component<any, any> {
   }
 
   render() {
+    const allSheetsObtained = ({ data }: any) => {
+      let parser = new DOMParser();
+      let ids = parser
+        .parseFromString(data, "text/xml")
+        .getElementsByTagName("id");
+      let titles = parser
+        .parseFromString(data, "text/xml")
+        .getElementsByTagName("title");
+
+      let elements = Array.from(titles).map((ele, index) => {
+        let uri = ids[index].childNodes[0].nodeValue;
+        if (uri) {
+          return {
+            name: ele.childNodes[0].nodeValue,
+            id: uri.split("full/")[1],
+          };
+        }
+      });
+      console.log(elements);
+    };
+    
     const loginSuccess = (response: any) => {
       let userProfile = {
         name: response.profileObj.name,
@@ -20,7 +42,12 @@ class GoogleAuth extends React.Component<any, any> {
       };
       this.props.onLogIn(userProfile);
       this.props.authLoadingEnd();
-      console.log(userProfile);
+      axios
+        .get(
+          `https://spreadsheets.google.com/feeds/spreadsheets/private/full?access_token=${response.accessToken}`
+        )
+        .then(allSheetsObtained)
+        .catch(error => console.log(error));
     };
 
     const logout = () => {
@@ -49,6 +76,7 @@ class GoogleAuth extends React.Component<any, any> {
             className="my-google-button-class"
             onSuccess={loginSuccess}
             onFailure={loginfailed}
+            scope="https://www.googleapis.com/auth/spreadsheets"
             isSignedIn={true}
             buttonText="Login with Google"
           ></GoogleLogin>
