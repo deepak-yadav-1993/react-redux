@@ -1,6 +1,8 @@
 import * as ActionTypes from '../ActionTypes';
 
-export const authStore = (state = {loggedIn: false, userData: {}, isLoading:false }, action) => {
+const defaultState = {loggedIn: false, userData: {}, isLoading:false };
+
+export const authStore = (state = defaultState, action) => {
     switch (action.type) {
         case ActionTypes.USER_LOGGEDIN:
             return {...state, loggedIn:true, userData: action.payload};
