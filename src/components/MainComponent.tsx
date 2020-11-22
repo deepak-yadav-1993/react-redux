@@ -5,18 +5,18 @@ import FavoriteIcon from "@material-ui/icons/Favorite";
 import RestoreIcon from "@material-ui/icons/Restore";
 import LocationOnIcon from "@material-ui/icons/LocationOn";
 import { connect } from "react-redux";
-import { LinearProgress } from '@material-ui/core';
+import { LinearProgress } from "@material-ui/core";
 // import banner from "../images/banner.ai";
 import {
   loginSuccess,
   logoutSuccess,
-  authLoading,
-  authLoadingEnd
+  loadingStart,
+  loadingEnd,
 } from "../redux/ActionCreaters";
 
 const mapStateToProps = (state: any) => {
   return {
-    loginState: state.loginState,
+    appState: state.appState,
   };
 };
 
@@ -24,15 +24,17 @@ const mapDispatchToProps = (dispatch: any) => {
   return {
     loginSuccess: (userdata: Object) => dispatch(loginSuccess(userdata)),
     logoutSuccess: () => dispatch(logoutSuccess()),
-    authLoading: () => dispatch(authLoading()),
-    authLoadingEnd: () => dispatch(authLoadingEnd())
+    loadingStart: () => dispatch(loadingStart()),
+    loadingEnd: () => dispatch(loadingEnd()),
   };
 };
 
-const containerClass = "component main";
-const colorClass = "generic-color";
-const iconStyleConfigs = {
-  color: "white",
+const defaultElements = {
+  CONTAINER_CLASS: "component main",
+  COLOR_GROUP: "generic-color",
+  ICON_STYLE: {
+    COLOR: "white",
+  },
 };
 
 class MainComponent extends React.Component<any, any> {
@@ -41,35 +43,52 @@ class MainComponent extends React.Component<any, any> {
   }
 
   render() {
-    const loading = this.props.loginState.isLoading ? <LinearProgress color="secondary" style={{width: "100%", height: "4px"}}/> : <div style={{width: "100%", height: "4px"}}></div> ;
+    const loading = this.props.appState.isLoading
+      ? <LinearProgress
+          color="secondary"
+          style={{
+            width: "inherit",
+            height: "4px",
+            position: "absolute",
+            top: "1%",
+          }}
+        />
+      : <div
+          style={{
+            width: "inherit",
+            height: "4px",
+            position: "absolute",
+            top: "1%",
+          }}
+        />;
     return (
-      <div className={`${containerClass} ${colorClass}`}>
+      <div className={`${defaultElements.CONTAINER_CLASS} ${defaultElements.COLOR_GROUP}`}>
+        {loading}
         {/* <img src={banner} alt="banner" /> */}
         <GoogleAuthComponent
-          loggedIn={this.props.loginState.loggedIn}
+          loggedIn={this.props.appState.loggedIn}
           onLogIn={this.props.loginSuccess}
           onLogout={this.props.logoutSuccess}
-          authLoading={this.props.authLoading}
-          authLoadingEnd={this.props.authLoadingEnd}
+          loadingStart={this.props.loadingStart}
+          loadingEnd={this.props.loadingEnd}
         />
-        <BottomNavigation value={"test"} showLabels className={colorClass}>
+        <BottomNavigation value={"test"} showLabels className={defaultElements.COLOR_GROUP}>
           <BottomNavigationAction
             label="Recents"
-            style={{ color: iconStyleConfigs.color }}
-            icon={<RestoreIcon style={{ color: iconStyleConfigs.color }} />}
+            style={{ color: defaultElements.ICON_STYLE.COLOR }}
+            icon={<RestoreIcon style={{ color: defaultElements.ICON_STYLE.COLOR }} />}
           />
           <BottomNavigationAction
             label="Favorites"
-            style={{ color: iconStyleConfigs.color }}
-            icon={<FavoriteIcon style={{ color: iconStyleConfigs.color }} />}
+            style={{ color: defaultElements.ICON_STYLE.COLOR }}
+            icon={<FavoriteIcon style={{ color: defaultElements.ICON_STYLE.COLOR }} />}
           />
           {/* <BottomNavigationAction
             label="Nearby"
-            style={{ color: iconStyleConfigs.color }}
-            icon={<LocationOnIcon style={{ color: iconStyleConfigs.color }} />}
+            style={{ color: defaultElements.ICON_STYLE.COLOR }}
+            icon={<LocationOnIcon style={{ color: defaultElements.ICON_STYLE.COLOR }} />}
           /> */}
         </BottomNavigation>
-        {loading}
       </div>
     );
   }

@@ -1,39 +1,31 @@
 import React, { Component } from "react";
 import { GoogleLogin } from "react-google-login";
 import { GoogleLogout } from "react-google-login";
-import { clientId, ApiKey } from "../shared/GoogleAuthCreds";
-import axios from "axios";
+import { clientId } from "../shared/GoogleAuthCreds";
+import apiService from "../shared/ApiCallService";
+import { connect } from "react-redux";
+import { sheetsDataRecieved } from "../redux/ActionCreaters";
 
 const containerClass = "component google-auth";
 
+const mapStateToProps = (state: any) => {
+  return {
+    sheetData: state.sheetData,
+  };
+};
+
+const mapDispatchToProps = (dispatch: any) => {
+  return {
+    sheetsDataRecieved: (sheetData: any) => dispatch(sheetsDataRecieved(sheetData)),
+  };
+};
 class GoogleAuth extends React.Component<any, any> {
   constructor(props: any) {
     super(props);
   }
 
   render() {
-    const allSheetsObtained = ({ data }: any) => {
-      let parser = new DOMParser();
-      let ids = parser
-        .parseFromString(data, "text/xml")
-        .getElementsByTagName("id");
-      let titles = parser
-        .parseFromString(data, "text/xml")
-        .getElementsByTagName("title");
-
-      let elements = Array.from(titles).map((ele, index) => {
-        let uri = ids[index].childNodes[0].nodeValue;
-        if (uri) {
-          return {
-            name: ele.childNodes[0].nodeValue,
-            id: uri.split("full/")[1],
-          };
-        }
-      });
-      console.log(elements);
-    };
-    
-    const loginSuccess = (response: any) => {
+    const loginSuccess = async (response: any) => {
       let userProfile = {
         name: response.profileObj.name,
         email: response.profileObj.email,
@@ -41,49 +33,48 @@ class GoogleAuth extends React.Component<any, any> {
         googleId: response.profileObj.googleId,
       };
       this.props.onLogIn(userProfile);
-      this.props.authLoadingEnd();
-      axios
-        .get(
-          `https://spreadsheets.google.com/feeds/spreadsheets/private/full?access_token=${response.accessToken}`
-        )
-        .then(allSheetsObtained)
-        .catch(error => console.log(error));
+
+      let sheet = {
+        spreadsheetId: "1UhEWbuFZGbAP1UIZ0PBxE7UgoW2bjOSnlSJuBSOnemE",
+        sheetId: "Finances",
+      };
+      let sheets = await new apiService(response.accessToken).getSheetData(sheet);
+      this.props.sheetsDataRecieved(sheets);
+      this.props.loadingEnd();
     };
 
     const logout = () => {
       console.log("Logged Out");
       this.props.onLogout();
-      this.props.authLoadingEnd();
+      this.props.loadingEnd();
     };
 
     const loginfailed = (response: Object) => {
       console.log(response);
-      this.props.authLoadingEnd();
+      this.props.loadingEnd();
     };
 
     return (
-      <div className={containerClass} onClick={(e) => this.props.authLoading()}>
-        {this.props.loggedIn ? (
-          <GoogleLogout
-            clientId={clientId}
-            className="my-google-button-class"
-            buttonText="Logout"
-            onLogoutSuccess={logout}
-          ></GoogleLogout>
-        ) : (
-          <GoogleLogin
-            clientId={clientId}
-            className="my-google-button-class"
-            onSuccess={loginSuccess}
-            onFailure={loginfailed}
-            scope="https://www.googleapis.com/auth/spreadsheets"
-            isSignedIn={true}
-            buttonText="Login with Google"
-          ></GoogleLogin>
-        )}
+      <div className={containerClass} onClick={e => this.props.loadingStart()}>
+        {this.props.loggedIn
+          ? <GoogleLogout
+              clientId={clientId}
+              className="my-google-button-class"
+              buttonText="Logout"
+              onLogoutSuccess={logout}
+            />
+          : <GoogleLogin
+              clientId={clientId}
+              className="my-google-button-class"
+              onSuccess={loginSuccess}
+              onFailure={loginfailed}
+              scope="https://www.googleapis.com/auth/spreadsheets"
+              isSignedIn={true}
+              buttonText="Login with Google"
+            />}
       </div>
     );
   }
 }
 
-export default GoogleAuth;
+export default connect(mapStateToProps, mapDispatchToProps)(GoogleAuth);

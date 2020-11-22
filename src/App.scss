@@ -30,6 +30,7 @@ $base-contrast-colr: rgb(255, 106, 130);
   justify-content: center;
   font-size: calc(10px + 2vmin);
   color: $color-white;
+  width: 100%;
 }
 .MuiLinearProgress-colorSecondary {
   background-color: $color-white !important;
