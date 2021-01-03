@@ -1,10 +1,12 @@
-import React, { Component } from "react";
+import React from "react";
 import { GoogleLogin } from "react-google-login";
 import { GoogleLogout } from "react-google-login";
 import { clientId } from "../shared/GoogleAuthCreds";
 import apiService from "../shared/ApiCallService";
 import { connect } from "react-redux";
-import { sheetsDataRecieved } from "../redux/ActionCreaters";
+import { sheetsDataRecieved, errorOccured } from "../redux/ActionCreaters";
+import { ErrorType } from "../shared/Type";
+import { transformErrorMessage } from "./ErrorComponent";
 
 const containerClass = "component google-auth";
 
@@ -17,13 +19,10 @@ const mapStateToProps = (state: any) => {
 const mapDispatchToProps = (dispatch: any) => {
   return {
     sheetsDataRecieved: (sheetData: any) => dispatch(sheetsDataRecieved(sheetData)),
+    errorOccured: (error: ErrorType) => dispatch(errorOccured(error)),
   };
 };
 class GoogleAuth extends React.Component<any, any> {
-  constructor(props: any) {
-    super(props);
-  }
-
   render() {
     const loginSuccess = async (response: any) => {
       let userProfile = {
@@ -38,9 +37,15 @@ class GoogleAuth extends React.Component<any, any> {
         spreadsheetId: "1UhEWbuFZGbAP1UIZ0PBxE7UgoW2bjOSnlSJuBSOnemE",
         sheetId: "Finances",
       };
-      let sheets = await new apiService(response.accessToken).getSheetData(sheet);
-      this.props.sheetsDataRecieved(sheets);
-      this.props.loadingEnd();
+      try {
+        let sheets = await new apiService(response.accessToken).getSheetData(sheet);
+        this.props.sheetsDataRecieved(sheets);
+        this.props.loadingEnd();
+      } catch (err) {
+        this.props.sheetsDataRecieved({});
+        this.props.loadingEnd();
+        this.props.errorOccured(transformErrorMessage(err));
+      }
     };
 
     const logout = () => {

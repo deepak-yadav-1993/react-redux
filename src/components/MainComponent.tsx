@@ -1,17 +1,19 @@
-import React, { Component } from "react";
+import React from "react";
 import GoogleAuthComponent from "./GoogleAuth";
-import { BottomNavigation, BottomNavigationAction } from "@material-ui/core";
+import { BottomNavigation, BottomNavigationAction, Container } from "@material-ui/core";
 import FavoriteIcon from "@material-ui/icons/Favorite";
 import RestoreIcon from "@material-ui/icons/Restore";
-import LocationOnIcon from "@material-ui/icons/LocationOn";
+// import LocationOnIcon from "@material-ui/icons/LocationOn";
 import { connect } from "react-redux";
 import { LinearProgress } from "@material-ui/core";
+import ErrorComponent from "./ErrorComponent";
 // import banner from "../images/banner.ai";
 import {
   loginSuccess,
   logoutSuccess,
   loadingStart,
   loadingEnd,
+  errorOccured,
 } from "../redux/ActionCreaters";
 
 const mapStateToProps = (state: any) => {
@@ -26,11 +28,14 @@ const mapDispatchToProps = (dispatch: any) => {
     logoutSuccess: () => dispatch(logoutSuccess()),
     loadingStart: () => dispatch(loadingStart()),
     loadingEnd: () => dispatch(loadingEnd()),
+    errorOccured: (error: any) => dispatch(errorOccured(error)),
   };
 };
 
 const defaultElements = {
   CONTAINER_CLASS: "component main",
+  CONTENT_CLASS: "content-section",
+  NAVIGATION_CLASS: "nav-section",
   COLOR_GROUP: "generic-color",
   ICON_STYLE: {
     COLOR: "white",
@@ -38,57 +43,53 @@ const defaultElements = {
 };
 
 class MainComponent extends React.Component<any, any> {
-  constructor(props: any) {
-    super(props);
-  }
-
   render() {
     const loading = this.props.appState.isLoading
-      ? <LinearProgress
-          color="secondary"
-          style={{
-            width: "inherit",
-            height: "4px",
-            position: "absolute",
-            top: "1%",
-          }}
-        />
+      ? <LinearProgress color="secondary" style={{ height: "4px" }} />
       : <div
           style={{
-            width: "inherit",
-            height: "4px",
-            position: "absolute",
-            top: "1%",
+            height: "1vh",
           }}
         />;
+    const overlayRender = this.props.appState.isLoading ? <div id="overlay" /> : null;
+    let { errors } = this.props.appState;
+    const errorRender = errors.length > 0 ? <ErrorComponent /> : null;
     return (
       <div className={`${defaultElements.CONTAINER_CLASS} ${defaultElements.COLOR_GROUP}`}>
-        {loading}
+        <div className="loading-container">
+          {loading}
+        </div>
+        {overlayRender}
+        <div className="error-container">
+          {errorRender}
+        </div>
         {/* <img src={banner} alt="banner" /> */}
-        <GoogleAuthComponent
-          loggedIn={this.props.appState.loggedIn}
-          onLogIn={this.props.loginSuccess}
-          onLogout={this.props.logoutSuccess}
-          loadingStart={this.props.loadingStart}
-          loadingEnd={this.props.loadingEnd}
-        />
-        <BottomNavigation value={"test"} showLabels className={defaultElements.COLOR_GROUP}>
-          <BottomNavigationAction
-            label="Recents"
-            style={{ color: defaultElements.ICON_STYLE.COLOR }}
-            icon={<RestoreIcon style={{ color: defaultElements.ICON_STYLE.COLOR }} />}
+        <Container fixed>
+          <GoogleAuthComponent
+            loggedIn={this.props.appState.loggedIn}
+            onLogIn={this.props.loginSuccess}
+            onLogout={this.props.logoutSuccess}
+            loadingStart={this.props.loadingStart}
+            loadingEnd={this.props.loadingEnd}
           />
-          <BottomNavigationAction
-            label="Favorites"
-            style={{ color: defaultElements.ICON_STYLE.COLOR }}
-            icon={<FavoriteIcon style={{ color: defaultElements.ICON_STYLE.COLOR }} />}
-          />
-          {/* <BottomNavigationAction
+          <BottomNavigation value={"test"} showLabels className={defaultElements.COLOR_GROUP}>
+            <BottomNavigationAction
+              label="Recents"
+              style={{ color: defaultElements.ICON_STYLE.COLOR }}
+              icon={<RestoreIcon style={{ color: defaultElements.ICON_STYLE.COLOR }} />}
+            />
+            <BottomNavigationAction
+              label="Favorites"
+              style={{ color: defaultElements.ICON_STYLE.COLOR }}
+              icon={<FavoriteIcon style={{ color: defaultElements.ICON_STYLE.COLOR }} />}
+            />
+            {/* <BottomNavigationAction
             label="Nearby"
             style={{ color: defaultElements.ICON_STYLE.COLOR }}
             icon={<LocationOnIcon style={{ color: defaultElements.ICON_STYLE.COLOR }} />}
           /> */}
-        </BottomNavigation>
+          </BottomNavigation>
+        </Container>
       </div>
     );
   }

@@ -21,3 +21,13 @@ export const sheetsDataRecieved = sheetData => ({
   type: ActionTypes.SHEETS_DATA_RECIEVED,
   payload: sheetData,
 });
+
+export const errorOccured = error => ({
+  type: ActionTypes.ERROR_OCCURED,
+  payload: error,
+});
+
+export const errorDismissed = index => ({
+  type: ActionTypes.ERROR_DISMISSED,
+  payload: index,
+});

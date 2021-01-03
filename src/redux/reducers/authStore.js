@@ -7,6 +7,7 @@ const defaultState = {
   sheetData: [],
   speadSheetId: "",
   sheetId: "",
+  errors: [],
 };
 
 export const authStore = (state = defaultState, action) => {
@@ -21,7 +22,15 @@ export const authStore = (state = defaultState, action) => {
       return { ...state, isLoading: false };
     case ActionTypes.SHEETS_DATA_RECIEVED:
       return { ...state, sheetData: state.sheetData.concat(action.payload) };
-
+    case ActionTypes.ERROR_OCCURED:
+      return { ...state, errors: state.errors.concat(action.payload) };
+    case ActionTypes.ERROR_DISMISSED:
+      return {
+        ...state,
+        errors: state.errors.filter((item, index) => {
+          return index !== action.payload;
+        }),
+      };
     default:
       return state;
   }
