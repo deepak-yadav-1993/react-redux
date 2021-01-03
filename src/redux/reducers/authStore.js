@@ -5,8 +5,8 @@ const defaultState = {
   userData: {},
   isLoading: false,
   sheetData: [],
-  speadSheetId: "",
-  sheetId: "",
+  speadSheetId: "1UhEWbuFZGbAP1UIZ0PBxE7UgoW2bjOSnlSJuBSOnemE",
+  sheetId: "Finances",
   errors: [],
 };
 
@@ -15,7 +15,7 @@ export const authStore = (state = defaultState, action) => {
     case ActionTypes.USER_LOGGEDIN:
       return { ...state, loggedIn: true, userData: action.payload };
     case ActionTypes.USER_LOGGEDOUT:
-      return { ...state, loggedIn: false, userData: {} };
+      return defaultState;
     case ActionTypes.LOADING_START:
       return { ...state, isLoading: true };
     case ActionTypes.LOADING_END:

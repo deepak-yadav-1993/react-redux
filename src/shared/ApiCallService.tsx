@@ -20,13 +20,13 @@ export default class ApiService {
 
    /**
     * 
-    * @param {string} spreadsheetId - Id of the spppreadsheet that you want
+    * @param {string} speadSheetId - Id of the spppreadsheet that you want
     * @param {string} sheetId - The title of the sheet in the spreadsheet
     * @example 
-    * let sheetObject = {spreadsheetId: "id", sheetId: "sheetid"};
+    * let sheetObject = {speadSheetId: "id", sheetId: "sheetid"};
     * getSheetData(sheetObject);
     */
-   getSheetData = ({spreadsheetId, sheetId}: {spreadsheetId:string, sheetId: string})  => {
-      return axios.get(`${v4API}/${spreadsheetId}/values/${sheetId}`, this.config);
+   getSheetData = ({speadSheetId, sheetId}: {speadSheetId:string, sheetId: string})  => {
+      return axios.get(`${v4API}/${speadSheetId}/values/${sheetId}`, this.config);
    }
 };

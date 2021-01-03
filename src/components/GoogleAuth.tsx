@@ -11,8 +11,11 @@ import { transformErrorMessage } from "./ErrorComponent";
 const containerClass = "component google-auth";
 
 const mapStateToProps = (state: any) => {
+  let { sheetData, speadSheetId, sheetId} = state.appState;
   return {
-    sheetData: state.sheetData,
+    sheetData,
+    speadSheetId,
+    sheetId
   };
 };
 
@@ -33,13 +36,11 @@ class GoogleAuth extends React.Component<any, any> {
       };
       this.props.onLogIn(userProfile);
 
-      let sheet = {
-        spreadsheetId: "1UhEWbuFZGbAP1UIZ0PBxE7UgoW2bjOSnlSJuBSOnemE",
-        sheetId: "Finances",
-      };
       try {
-        let sheets = await new apiService(response.accessToken).getSheetData(sheet);
-        this.props.sheetsDataRecieved(sheets);
+        let {speadSheetId, sheetId} = this.props;
+        let sheets = await new apiService(response.accessToken).getSheetData({speadSheetId, sheetId});
+        const {values} = sheets?.data ?? [ ];
+        this.props.sheetsDataRecieved(values);
         this.props.loadingEnd();
       } catch (err) {
         this.props.sheetsDataRecieved({});
