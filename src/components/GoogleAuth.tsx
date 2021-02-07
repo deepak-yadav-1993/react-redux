@@ -55,7 +55,7 @@ class GoogleAuth extends React.Component<any, any> {
       this.props.loadingEnd();
     };
 
-    const loginfailed = (response: Object) => {
+    const loginfailed = (response: object) => {
       console.log(response);
       this.props.loadingEnd();
     };
