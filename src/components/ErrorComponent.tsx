@@ -17,7 +17,7 @@ export const ErrorComponent = (props: any) => {
               props.errorDismissed(index);
             }}
             style={{
-                margin: "3px"
+              margin: "3px",
             }}
           >
             {item.message}
@@ -41,5 +41,9 @@ const mapDispatchToProps = (dispatch: any) => {
 export default connect(mapStateToProps, mapDispatchToProps)(ErrorComponent);
 
 export const transformErrorMessage = (err: any) => {
-  return err?.response?.data?.error ?? {error: {message: "Failed to fetch data", code: 520}};
-}
+  return (
+    err?.response?.data?.error ?? {
+      error: { message: "Failed to fetch data", code: 520 },
+    }
+  );
+};

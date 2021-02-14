@@ -1,6 +1,10 @@
 import React from "react";
 import GoogleAuthComponent from "./GoogleAuth";
-import { BottomNavigation, BottomNavigationAction, Container } from "@material-ui/core";
+import {
+  BottomNavigation,
+  BottomNavigationAction,
+  Container,
+} from "@material-ui/core";
 import FavoriteIcon from "@material-ui/icons/Favorite";
 import RestoreIcon from "@material-ui/icons/Restore";
 // import LocationOnIcon from "@material-ui/icons/LocationOn";
@@ -44,25 +48,27 @@ const defaultElements = {
 
 class MainComponent extends React.Component<any, any> {
   render() {
-    const loading = this.props.appState.isLoading
-      ? <LinearProgress color="secondary" style={{ height: "4px" }} />
-      : <div
-          style={{
-            height: "1vh",
-          }}
-        />;
-    const overlayRender = this.props.appState.isLoading ? <div id="overlay" /> : null;
+    const loading = this.props.appState.isLoading ? (
+      <LinearProgress color="secondary" style={{ height: "4px" }} />
+    ) : (
+      <div
+        style={{
+          height: "1vh",
+        }}
+      />
+    );
+    const overlayRender = this.props.appState.isLoading ? (
+      <div id="overlay" />
+    ) : null;
     let { errors } = this.props.appState;
     const errorRender = errors.length > 0 ? <ErrorComponent /> : null;
     return (
-      <div className={`${defaultElements.CONTAINER_CLASS} ${defaultElements.COLOR_GROUP}`}>
-        <div className="loading-container">
-          {loading}
-        </div>
+      <div
+        className={`${defaultElements.CONTAINER_CLASS} ${defaultElements.COLOR_GROUP}`}
+      >
+        <div className="loading-container">{loading}</div>
         {overlayRender}
-        <div className="error-container">
-          {errorRender}
-        </div>
+        <div className="error-container">{errorRender}</div>
         {/* <img src={banner} alt="banner" /> */}
         <Container fixed>
           <GoogleAuthComponent
@@ -72,16 +78,28 @@ class MainComponent extends React.Component<any, any> {
             loadingStart={this.props.loadingStart}
             loadingEnd={this.props.loadingEnd}
           />
-          <BottomNavigation value={"test"} showLabels className={defaultElements.COLOR_GROUP}>
+          <BottomNavigation
+            value={"test"}
+            showLabels
+            className={defaultElements.COLOR_GROUP}
+          >
             <BottomNavigationAction
               label="Recents"
               style={{ color: defaultElements.ICON_STYLE.COLOR }}
-              icon={<RestoreIcon style={{ color: defaultElements.ICON_STYLE.COLOR }} />}
+              icon={
+                <RestoreIcon
+                  style={{ color: defaultElements.ICON_STYLE.COLOR }}
+                />
+              }
             />
             <BottomNavigationAction
               label="Favorites"
               style={{ color: defaultElements.ICON_STYLE.COLOR }}
-              icon={<FavoriteIcon style={{ color: defaultElements.ICON_STYLE.COLOR }} />}
+              icon={
+                <FavoriteIcon
+                  style={{ color: defaultElements.ICON_STYLE.COLOR }}
+                />
+              }
             />
             {/* <BottomNavigationAction
             label="Nearby"

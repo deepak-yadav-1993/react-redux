@@ -15,7 +15,8 @@ const mapStateToProps = (state: any) => {
 
 const mapDispatchToProps = (dispatch: any) => {
   return {
-    sheetsDataRecieved: (sheetData: any) => dispatch(sheetsDataRecieved(sheetData)),
+    sheetsDataRecieved: (sheetData: any) =>
+      dispatch(sheetsDataRecieved(sheetData)),
   };
 };
 class UserInputForm extends React.Component<any, any> {

@@ -8,25 +8,31 @@ const v4API = `https://sheets.googleapis.com/v4/spreadsheets`;
 // const baseWorksheetUrl = `https://spreadsheets.google.com/feeds/cells/key/worksheetId/private/`;
 
 export default class ApiService {
-   config: object;
+  config: object;
 
-   constructor(accesToken: string) {
-      this.config = {
-         headers: {
-            'Authorization': `Bearer ${accesToken}`
-         }
-      };
-   }
+  constructor(accesToken: string) {
+    this.config = {
+      headers: {
+        Authorization: `Bearer ${accesToken}`,
+      },
+    };
+  }
 
-   /**
-    * 
-    * @param {string} speadSheetId - Id of the spppreadsheet that you want
-    * @param {string} sheetId - The title of the sheet in the spreadsheet
-    * @example 
-    * let sheetObject = {speadSheetId: "id", sheetId: "sheetid"};
-    * getSheetData(sheetObject);
-    */
-   getSheetData = ({speadSheetId, sheetId}: {speadSheetId:string, sheetId: string})  => {
-      return axios.get(`${v4API}/${speadSheetId}/values/${sheetId}`, this.config);
-   }
-};
+  /**
+   *
+   * @param {string} speadSheetId - Id of the spppreadsheet that you want
+   * @param {string} sheetId - The title of the sheet in the spreadsheet
+   * @example
+   * let sheetObject = {speadSheetId: "id", sheetId: "sheetid"};
+   * getSheetData(sheetObject);
+   */
+  getSheetData = ({
+    speadSheetId,
+    sheetId,
+  }: {
+    speadSheetId: string;
+    sheetId: string;
+  }) => {
+    return axios.get(`${v4API}/${speadSheetId}/values/${sheetId}`, this.config);
+  };
+}

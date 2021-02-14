@@ -11,17 +11,18 @@ import { transformErrorMessage } from "./ErrorComponent";
 const containerClass = "component google-auth";
 
 const mapStateToProps = (state: any) => {
-  let { sheetData, speadSheetId, sheetId} = state.appState;
+  let { sheetData, speadSheetId, sheetId } = state.appState;
   return {
     sheetData,
     speadSheetId,
-    sheetId
+    sheetId,
   };
 };
 
 const mapDispatchToProps = (dispatch: any) => {
   return {
-    sheetsDataRecieved: (sheetData: any) => dispatch(sheetsDataRecieved(sheetData)),
+    sheetsDataRecieved: (sheetData: any) =>
+      dispatch(sheetsDataRecieved(sheetData)),
     errorOccured: (error: ErrorType) => dispatch(errorOccured(error)),
   };
 };
@@ -37,9 +38,12 @@ class GoogleAuth extends React.Component<any, any> {
       this.props.onLogIn(userProfile);
 
       try {
-        let {speadSheetId, sheetId} = this.props;
-        let sheets = await new apiService(response.accessToken).getSheetData({speadSheetId, sheetId});
-        const {values} = sheets?.data ?? [ ];
+        let { speadSheetId, sheetId } = this.props;
+        let sheets = await new apiService(response.accessToken).getSheetData({
+          speadSheetId,
+          sheetId,
+        });
+        const { values } = sheets?.data ?? [];
         this.props.sheetsDataRecieved(values);
         this.props.loadingEnd();
       } catch (err) {
@@ -61,23 +65,28 @@ class GoogleAuth extends React.Component<any, any> {
     };
 
     return (
-      <div className={containerClass} onClick={e => this.props.loadingStart()}>
-        {this.props.loggedIn
-          ? <GoogleLogout
-              clientId={clientId}
-              className="my-google-button-class"
-              buttonText="Logout"
-              onLogoutSuccess={logout}
-            />
-          : <GoogleLogin
-              clientId={clientId}
-              className="my-google-button-class"
-              onSuccess={loginSuccess}
-              onFailure={loginfailed}
-              scope="https://www.googleapis.com/auth/spreadsheets"
-              isSignedIn={true}
-              buttonText="Login with Google"
-            />}
+      <div
+        className={containerClass}
+        onClick={(e) => this.props.loadingStart()}
+      >
+        {this.props.loggedIn ? (
+          <GoogleLogout
+            clientId={clientId}
+            className="my-google-button-class"
+            buttonText="Logout"
+            onLogoutSuccess={logout}
+          />
+        ) : (
+          <GoogleLogin
+            clientId={clientId}
+            className="my-google-button-class"
+            onSuccess={loginSuccess}
+            onFailure={loginfailed}
+            scope="https://www.googleapis.com/auth/spreadsheets"
+            isSignedIn={true}
+            buttonText="Login with Google"
+          />
+        )}
       </div>
     );
   }
