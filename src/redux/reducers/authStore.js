@@ -4,7 +4,8 @@ const defaultState = {
   loggedIn: false,
   userData: {},
   isLoading: false,
-  sheetData: [],
+  header: [],
+  data: [],
   speadSheetId: "1UhEWbuFZGbAP1UIZ0PBxE7UgoW2bjOSnlSJuBSOnemE",
   sheetId: "Finances",
   errors: [],
@@ -21,7 +22,11 @@ export const authStore = (state = defaultState, action) => {
     case ActionTypes.LOADING_END:
       return { ...state, isLoading: false };
     case ActionTypes.SHEETS_DATA_RECIEVED:
-      return { ...state, sheetData: state.sheetData.concat(action.payload) };
+      return {
+        ...state,
+        header: state.header.concat(action.payload.header),
+        data: state.header.concat(action.payload.data),
+      };
     case ActionTypes.ERROR_OCCURED:
       return { ...state, errors: state.errors.concat(action.payload) };
     case ActionTypes.ERROR_DISMISSED:

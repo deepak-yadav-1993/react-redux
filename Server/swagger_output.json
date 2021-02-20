@@ -8,11 +8,13 @@
   "host": "localhost:3000",
   "basePath": "/",
   "tags": [],
-  "schemes": ["http"],
+  "schemes": [
+    "http"
+  ],
   "consumes": [],
   "produces": [],
   "paths": {
-    "/users/{id}": {
+    "/api/users/{id}": {
       "get": {
         "tags": [],
         "description": "",

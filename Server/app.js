@@ -1,5 +1,5 @@
 const express = require("express");
-const port = 3000;
+const port = 3001;
 const app = express();
 const swaggerUi = require("swagger-ui-express");
 const swaggerFile = require("./swagger_output.json");

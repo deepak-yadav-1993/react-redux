@@ -5,7 +5,7 @@ import { clientId } from "../shared/GoogleAuthCreds";
 import apiService from "../shared/ApiCallService";
 import { connect } from "react-redux";
 import { sheetsDataRecieved, errorOccured } from "../redux/ActionCreaters";
-import { ErrorType } from "../shared/Type";
+import { ErrorType, SheetsData } from "../shared/Type";
 import { transformErrorMessage } from "./ErrorComponent";
 
 const containerClass = "component google-auth";
@@ -21,10 +21,21 @@ const mapStateToProps = (state: any) => {
 
 const mapDispatchToProps = (dispatch: any) => {
   return {
-    sheetsDataRecieved: (sheetData: any) =>
+    sheetsDataRecieved: (sheetData: SheetsData) =>
       dispatch(sheetsDataRecieved(sheetData)),
     errorOccured: (error: ErrorType) => dispatch(errorOccured(error)),
   };
+};
+
+/**
+ * This function filters out the rows that do not have values for the
+ * headers
+ *
+ * @param header [string]: An array of headers
+ * @param data [string]: An array of data values
+ */
+const filterData = ({ header, data }: SheetsData) => {
+  return data.filter((row: any) => row.length === header.length);
 };
 class GoogleAuth extends React.Component<any, any> {
   render() {
@@ -43,8 +54,9 @@ class GoogleAuth extends React.Component<any, any> {
           speadSheetId,
           sheetId,
         });
-        const { values } = sheets?.data ?? [];
-        this.props.sheetsDataRecieved(values);
+        let [header, ...data] = sheets?.data?.values ?? [];
+        data = filterData({ header, data });
+        this.props.sheetsDataRecieved({ header, data });
         this.props.loadingEnd();
       } catch (err) {
         this.props.sheetsDataRecieved({});

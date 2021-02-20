@@ -7,7 +7,7 @@ const healthResponse = {
 };
 
 module.exports = (app) => {
-  app.get("/", (req, res) => {
+  app.get("/api", (req, res) => {
     res.send(healthResponse);
   });
   app.get("*", (req, res) => {
