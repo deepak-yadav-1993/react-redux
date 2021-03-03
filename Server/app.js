@@ -8,7 +8,8 @@ const swaggerUi = require("swagger-ui-express");
 const swaggerFile = require("./swagger_output.json");
 
 const port = process.env.PORT;
-const dbURI = `mongodb+srv://deepak:${process.env.DBPWD}@deepak-demo.g5azr.mongodb.net/myFirstDatabase?retryWrites=true&w=majority`;
+const dbPassword = process.env.DBPWD;
+const dbURI = `mongodb+srv://deepak:${dbPassword}@deepak-demo.g5azr.mongodb.net/myFirstDatabase?retryWrites=true&w=majority`;
 
 const connectToDb = async () => {
   try {
@@ -23,7 +24,7 @@ const connectToDb = async () => {
     endPoint(app);
     getRoutes(app);
   } catch (err) {
-    console.log("Error Message\n", err?.message, "\nErr\n", err);
+    console.trace("Error Message\n", err?.message, "\nErr\n", err);
   }
 };
 
