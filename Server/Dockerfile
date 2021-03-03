@@ -1,6 +1,7 @@
 FROM node:12.11.1-alpine
 # setting up PORT environment variable
 ENV PORT=3000
+ENV DBPWD=dipvik
 # setting the work direcotry
 WORKDIR /usr/src/app
 
