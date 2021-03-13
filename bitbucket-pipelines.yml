@@ -21,12 +21,13 @@ pipelines:
         condition:
           changesets:
             includePaths:
-              - "./*"
+              - "./**"
     - step:
         name: Build Backend
         script:
           - cd ./Server
           - export BACKEND=deepaky193/finance_server:latest
+          - docker login --username $DOCKER_USERID --password $DOCKER_PASSWORD
           - docker build -t $BACKEND .
           - docker push $BACKEND
         condition:
