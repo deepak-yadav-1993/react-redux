@@ -16,7 +16,6 @@ pipelines:
           - npm clean-install
           - npm run build
           - export FRONTEND=deepaky193/personal_finance_app:latest
-          - export BACKEND=deepaky193/finance_server:latest
           - docker login --username $DOCKER_USERID --password $DOCKER_PASSWORD
           - npm run publishImage
         condition:
@@ -27,6 +26,7 @@ pipelines:
         name: Build Backend
         script:
           - cd ./Server
+          - export BACKEND=deepaky193/finance_server:latest
           - docker build $BACKEND .
           - docker push $BACKEND
         condition:
