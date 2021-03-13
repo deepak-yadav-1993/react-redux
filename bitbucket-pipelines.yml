@@ -27,7 +27,7 @@ pipelines:
         script:
           - cd ./Server
           - export BACKEND=deepaky193/finance_server:latest
-          - docker build $BACKEND .
+          - docker build -t $BACKEND .
           - docker push $BACKEND
         condition:
           changesets:
