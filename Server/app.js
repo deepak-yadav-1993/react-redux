@@ -24,7 +24,7 @@ const connectToDb = async () => {
     endPoint(app);
     getRoutes(app);
   } catch (err) {
-    console.trace("Error Message\n", err?.message, "\nErr\n", err);
+    console.trace("Error Message\n", err?.message, "\nErr \n", err);
   }
 };
 
