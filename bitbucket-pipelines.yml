@@ -21,7 +21,10 @@ pipelines:
         condition:
           changesets:
             includePaths:
-              - "./**"
+              - "src/**"
+              - "package*.json"
+              - "Dockerfile"
+              - "nginx.conf"
     - step:
         name: Build Backend
         script:
