@@ -1,0 +1,18 @@
+# This is a sample build configuration for JavaScript.
+# Check our guides at https://confluence.atlassian.com/x/14UWN for more examples.
+# Only use spaces to indent your .yml configuration.
+# -----
+# You can specify a custom docker image from Docker Hub as your build environment.
+pipelines:
+  default:
+    - step: &backend-build-image
+        caches:
+          - node
+        script: # Modify the commands below to build your repository.
+          - export IMAGE_NAME=deepaky193/finance_server:latest
+          - docker login --username $DOCKER_USERID --password $DOCKER_PASSWORD
+          - docker build $IMAGE_NAME .
+          - docker push $IMAGE_NAME
+
+options:
+  docker: true
