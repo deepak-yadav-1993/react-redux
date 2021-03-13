@@ -5,7 +5,7 @@ ENV DBPWD=dipvik
 # setting the work direcotry
 WORKDIR /usr/src/app
 
-COPY package*.json .
+COPY package*.json ./
 RUN npm clean-install
 
 COPY . .
