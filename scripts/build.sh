@@ -1,4 +1,4 @@
 #!/bin/sh
-echo "Building the ${IMAGE_NAME}\n"
-docker build -t $IMAGE_NAME .
-docker push $IMAGE_NAME
+echo "Building the ${FRONTEND}\n"
+docker build -t $FRONTEND .
+docker push $FRONTEND

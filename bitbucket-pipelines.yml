@@ -6,17 +6,23 @@
 image: node:12.11.1
 
 pipelines:
-  front-end:
-    - step: &build-and-publish
+  default:
+    - step: &build-frontend
         caches:
           - node
         script: # Modify the commands below to build your repository.
           - unset CI
           - npm clean-install
           - npm run build
-          - export IMAGE_NAME=deepaky193/personal_finance_app:latest
+          - export FRONTEND=deepaky193/personal_finance_app:latest
+          - export BACKEND=deepaky193/finance_server:latest
           - docker login --username $DOCKER_USERID --password $DOCKER_PASSWORD
           - npm run publishImage
+    - step: &build-backend
+        script:
+          - cd ./Server
+          - docker build $BACKEND .
+          - docker push $BACKEND
     # Disable pushing to google cloud
     # - step: &push-gcp
     #     name: Push to GCP registry
