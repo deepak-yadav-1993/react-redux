@@ -4,8 +4,8 @@
 # -----
 # You can specify a custom docker image from Docker Hub as your build environment.
 pipelines:
-  default:
-    - step: &backend-build-image
+  backend:
+    - step: &build-and-publish
         caches:
           - node
         script: # Modify the commands below to build your repository.
