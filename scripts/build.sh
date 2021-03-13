@@ -1,4 +1,4 @@
 #!/bin/sh
-echo "Building the"
-docker build -t deepaky193/personal_finance_app:latest .
-docker push deepaky193/personal_finance_app:latest
+echo "Building the ${IMAGE_NAME}\n"
+docker build -t $IMAGE_NAME .
+docker push $IMAGE_NAME
