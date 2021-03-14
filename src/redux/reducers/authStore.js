@@ -1,3 +1,4 @@
+import { stat } from "fs";
 import * as ActionTypes from "../ActionTypes";
 
 const defaultState = {
@@ -8,7 +9,10 @@ const defaultState = {
   data: [],
   speadSheetId: "1UhEWbuFZGbAP1UIZ0PBxE7UgoW2bjOSnlSJuBSOnemE",
   sheetId: "Finances",
-  errors: [],
+  errors: [
+    { index: 0, code: 502, message: "hello" },
+    { index: 1, code: 404, message: "not found" },
+  ],
 };
 
 export const authStore = (state = defaultState, action) => {
@@ -27,13 +31,18 @@ export const authStore = (state = defaultState, action) => {
         header: state.header.concat(action.payload.header),
         data: state.header.concat(action.payload.data),
       };
-    case ActionTypes.ERROR_OCCURED:
-      return { ...state, errors: state.errors.concat(action.payload) };
+    case ActionTypes.ERROR_OCCURED: {
+      const index = state.errors.length++;
+      return {
+        ...state,
+        errors: state.errors.concat({ ...action.payload, index }),
+      };
+    }
     case ActionTypes.ERROR_DISMISSED:
       return {
         ...state,
-        errors: state.errors.filter((item, index) => {
-          return index !== action.payload;
+        errors: state.errors.filter((error) => {
+          return error.index !== action.payload;
         }),
       };
     default:

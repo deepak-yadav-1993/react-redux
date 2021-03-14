@@ -8,13 +8,13 @@ import { Container } from "@material-ui/core";
 export const ErrorComponent = (props: any) => {
   return (
     <Container fixed>
-      {props.errors.map((item: ErrorType, index: number) => {
+      {props.errors.map((item: ErrorType) => {
         return (
           <Alert
             severity="error"
-            key={index}
+            key={item.index}
             onClick={() => {
-              props.errorDismissed(index);
+              props.errorDismissed(item.index);
             }}
             style={{
               margin: "3px",
@@ -34,7 +34,7 @@ const mapStateToProps = (state: any) => ({
 
 const mapDispatchToProps = (dispatch: any) => {
   return {
-    errorDismissed: (index: number) => dispatch(errorDismissed(index)),
+    errorDismissed: (error: number) => dispatch(errorDismissed(error)),
   };
 };
 

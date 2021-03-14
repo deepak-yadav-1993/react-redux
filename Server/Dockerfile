@@ -1,4 +1,4 @@
-FROM node:12.11.1-alpine
+FROM node:14.16-alpine
 # setting up PORT environment variable
 ENV PORT=3000
 ENV DBPWD=dipvik

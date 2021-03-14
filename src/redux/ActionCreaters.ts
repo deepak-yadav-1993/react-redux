@@ -1,6 +1,7 @@
 import * as ActionTypes from "./ActionTypes";
+import { ErrorType } from "../shared/Type";
 
-export const loginSuccess = (userData) => ({
+export const loginSuccess = (userData: any) => ({
   type: ActionTypes.USER_LOGGEDIN,
   payload: userData,
 });
@@ -17,17 +18,17 @@ export const loadingEnd = () => ({
   type: ActionTypes.LOADING_END,
 });
 
-export const sheetsDataRecieved = (sheetData) => ({
+export const sheetsDataRecieved = (sheetData: any) => ({
   type: ActionTypes.SHEETS_DATA_RECIEVED,
   payload: sheetData,
 });
 
-export const errorOccured = (error) => ({
+export const errorOccured = (error: ErrorType) => ({
   type: ActionTypes.ERROR_OCCURED,
   payload: error,
 });
 
-export const errorDismissed = (index) => ({
+export const errorDismissed = (index: number) => ({
   type: ActionTypes.ERROR_DISMISSED,
   payload: index,
 });
