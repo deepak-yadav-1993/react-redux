@@ -6,3 +6,4 @@ dist
 .LSOverride
 build
 node_modules
+.env
