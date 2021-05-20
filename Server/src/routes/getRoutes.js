@@ -10,7 +10,6 @@ module.exports = (app) => {
 	app.get("/api", (req, res) => {
 		res.send(healthResponse);
 	});
-
 	app.get("*", (req, res) => {
 		//The default route
 		res.send(response);
