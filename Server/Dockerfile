@@ -1,5 +1,6 @@
 FROM node:14.16-alpine
 # setting up PORT environment variable
+RUN echo $SERVER_PORT
 ENV PORT=$SERVER_PORT
 ENV DBPWD=$DBPWD
 # setting the work direcotry

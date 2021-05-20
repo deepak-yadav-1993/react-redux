@@ -40,7 +40,7 @@ export const authStore = (state = defaultState, action) => {
 		}
 		case ActionTypes.ERROR_DISMISSED:
 			return {
-				...state,
+				...state, // Trigger
 				errors: state.errors.filter((error) => {
 					return error.index !== action.payload;
 				}),
