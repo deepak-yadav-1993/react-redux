@@ -8,7 +8,7 @@ const endPoint = require("./endpoints");
 const getRoutes = require("./src/routes/getRoutes");
 const swaggerFile = require("./swagger_output.json");
 
-const port = process.env.PORT;
+const port = process.env.SERVER_PORT;
 const dbPassword = process.env.DBPWD;
 const dbURI = `mongodb+srv://deepak:${dbPassword}@deepak-demo.g5azr.mongodb.net/myFirstDatabase?retryWrites=true&w=majority`;
 
