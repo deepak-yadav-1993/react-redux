@@ -7,11 +7,11 @@ import { ConfigureStore } from "./redux/configureStore";
 const store = ConfigureStore();
 
 function App() {
-  return (
-    <Provider store={store}>
-      <MainComponent />
-    </Provider>
-  );
+	return (
+		<Provider store={store}>
+			<MainComponent />
+		</Provider>
+	);
 }
 
 export default App;

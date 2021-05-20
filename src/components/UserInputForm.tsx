@@ -5,24 +5,24 @@ import { sheetsDataRecieved } from "../redux/ActionCreaters";
 const containerClass = "component user-imput-form";
 
 const mapStateToProps = (state: any) => {
-  const { sheetdata, speadSheetId, sheetId } = state;
-  return {
-    sheetdata,
-    speadSheetId,
-    sheetId,
-  };
+	const { sheetdata, speadSheetId, sheetId } = state;
+	return {
+		sheetdata,
+		speadSheetId,
+		sheetId,
+	};
 };
 
 const mapDispatchToProps = (dispatch: any) => {
-  return {
-    sheetsDataRecieved: (sheetData: any) =>
-      dispatch(sheetsDataRecieved(sheetData)),
-  };
+	return {
+		sheetsDataRecieved: (sheetData: any) =>
+			dispatch(sheetsDataRecieved(sheetData)),
+	};
 };
 class UserInputForm extends React.Component<any, any> {
-  render() {
-    return <div>Test</div>;
-  }
+	render() {
+		return <div>Test</div>;
+	}
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(UserInputForm);

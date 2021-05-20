@@ -6,44 +6,43 @@ import { Alert } from "@material-ui/lab";
 import { Container } from "@material-ui/core";
 
 export const ErrorComponent = (props: any) => {
-  return (
-    <Container fixed>
-      {props.errors.map((item: ErrorType) => {
-        return (
-          <Alert
-            severity="error"
-            key={item.index}
-            onClick={() => {
-              props.errorDismissed(item.index);
-            }}
-            style={{
-              margin: "3px",
-            }}
-          >
-            {item.message}
-          </Alert>
-        );
-      })}
-    </Container>
-  );
+	return (
+		<Container fixed>
+			{props.errors.map((item: ErrorType) => {
+				return (
+					<Alert
+						severity="error"
+						key={item.index}
+						onClick={() => {
+							props.errorDismissed(item.index);
+						}}
+						style={{
+							margin: "3px",
+						}}>
+						{item.message}
+					</Alert>
+				);
+			})}
+		</Container>
+	);
 };
 
 const mapStateToProps = (state: any) => ({
-  errors: state.appState.errors,
+	errors: state.appState.errors,
 });
 
 const mapDispatchToProps = (dispatch: any) => {
-  return {
-    errorDismissed: (error: number) => dispatch(errorDismissed(error)),
-  };
+	return {
+		errorDismissed: (error: number) => dispatch(errorDismissed(error)),
+	};
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(ErrorComponent);
 
 export const transformErrorMessage = (err: any) => {
-  return (
-    err?.response?.data?.error ?? {
-      error: { message: "Failed to fetch data", code: 520 },
-    }
-  );
+	return (
+		err?.response?.data?.error ?? {
+			error: { message: "Failed to fetch data", code: 520 },
+		}
+	);
 };
