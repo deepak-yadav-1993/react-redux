@@ -1,12 +1,11 @@
 FROM node:14.16-alpine
-# setting up PORT environment variable
-ARG server_port="random" 
-ARG db_pass="random"
+# These ARG value will be overridden by the pipeline --build-arg command
+ARG server_port="I will be replaced" 
+ARG db_pass="I will be replaced"
 
-RUN echo "Overridden vals -> ${server_port} ${db_pass}"
-
-ENV PORT=${server_port}
+ENV SERVER_PORT=${server_port}
 ENV DBPWD=${db_pass}
+
 # setting the work direcotry
 WORKDIR /usr/src/app
 
