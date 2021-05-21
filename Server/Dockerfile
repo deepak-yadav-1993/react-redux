@@ -1,12 +1,12 @@
 FROM node:14.16-alpine
 # setting up PORT environment variable
-ARG PORT=some_default_value 
-ARG DBPWD="random"
+ARG server_port="random" 
+ARG db_pass="random"
 
-RUN echo "Overridden vals -> ${PORT} ${DBPWD}"
+RUN echo "Overridden vals -> ${server_port} ${db_pass}"
 
-ENV PORT=${PORT}}
-ENV DBPWD=${DBPWD}}
+ENV PORT=${server_port}
+ENV DBPWD=${db_pass}
 # setting the work direcotry
 WORKDIR /usr/src/app
 
