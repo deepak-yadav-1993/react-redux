@@ -31,7 +31,7 @@ pipelines:
           - cd ./Server
           - export BACKEND=deepaky193/finance_server:latest
           - docker login --username $DOCKER_USERID --password $DOCKER_PASSWORD
-          - docker build -t $BACKEND . --build-arg db_pass=$DBPWD server_port=$SERVER_PORT
+          - docker build -t $BACKEND --build-arg db_pass=$DBPWD server_port=$SERVER_PORT .
           - docker push $BACKEND
         condition:
           changesets:
