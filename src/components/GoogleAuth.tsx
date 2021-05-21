@@ -1,14 +1,15 @@
 import React from "react";
 import { GoogleLogin } from "react-google-login";
 import { GoogleLogout } from "react-google-login";
-import { clientId } from "../shared/GoogleAuthCreds";
 import apiService from "../shared/ApiCallService";
 import { connect } from "react-redux";
 import { sheetsDataRecieved, errorOccured } from "../redux/ActionCreaters";
 import { ErrorType, SheetsData } from "../shared/Type";
 import { transformErrorMessage } from "./ErrorComponent";
+import env from "react-dotenv";
 
 const containerClass = "component google-auth";
+const clientId = env.GOOGLE_CLIENT_ID ?? process.env.GOOGLE_CLIENT_ID;
 
 const mapStateToProps = (state: any) => {
 	let { sheetData, speadSheetId, sheetId } = state.appState;
