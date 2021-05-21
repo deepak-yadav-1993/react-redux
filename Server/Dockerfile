@@ -1,8 +1,9 @@
 FROM node:14.16-alpine
 # setting up PORT environment variable
-RUN echo $SERVER_PORT
-ENV PORT=$SERVER_PORT
-ENV DBPWD=$DBPWD
+RUN echo $db_pass
+RUN echo $server_port
+ENV PORT=$server_port
+ENV DBPWD=$db_pass
 # setting the work direcotry
 WORKDIR /usr/src/app
 
