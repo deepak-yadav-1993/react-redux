@@ -15,7 +15,7 @@ const clientId = env.GOOGLE_CLIENT_ID ?? process.env.GOOGLE_CLIENT_ID;
 console.log(
 	"client id",
 	process.env.GOOGLE_CLIENT_ID,
-	"\n\n",
+	"\n",
 	"GOOGLE_API_KEY",
 	process.env.GOOGLE_API_KEY
 );
