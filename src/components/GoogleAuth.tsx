@@ -12,6 +12,14 @@ const containerClass = "component google-auth";
 // using react-env for local developemnt but setting environment variable when publishing docker image
 const clientId = env.GOOGLE_CLIENT_ID ?? process.env.GOOGLE_CLIENT_ID;
 
+console.log(
+	"client id",
+	process.env.GOOGLE_CLIENT_ID,
+	"\n",
+	"GOOGLE_API_KEY",
+	process.env.GOOGLE_API_KEY
+);
+
 const mapStateToProps = (state: any) => {
 	let { sheetData, speadSheetId, sheetId } = state.appState;
 	return {
@@ -41,13 +49,6 @@ const filterData = ({ header, data }: SheetsData) => {
 };
 class GoogleAuth extends React.Component<any, any> {
 	render() {
-		console.log(
-			"client id",
-			process.env.GOOGLE_CLIENT_ID,
-			"\n",
-			"GOOGLE_API_KEY",
-			process.env.GOOGLE_API_KEY
-		);
 		const loginSuccess = async (response: any) => {
 			let userProfile = {
 				name: response.profileObj.name,
