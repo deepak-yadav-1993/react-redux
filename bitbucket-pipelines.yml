@@ -14,7 +14,7 @@ pipelines:
         script: # Modify the commands below to build your repository.
           - unset CI
           - npm clean-install
-          - printf "GOOGLE_CLIENT_ID=$GOOGLE_CLIENT_ID\GOOGLE_API_KEY=$GOOGLE_API_KEY">.env
+          - printf "GOOGLE_CLIENT_ID=$GOOGLE_CLIENT_ID\nGOOGLE_API_KEY=$GOOGLE_API_KEY">.env
           - cat .env
           - npm run build
           - cat build/env.js

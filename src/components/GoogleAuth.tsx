@@ -10,14 +10,14 @@ import env from "react-dotenv";
 
 const containerClass = "component google-auth";
 // using react-env for local developemnt but setting environment variable when publishing docker image
-const clientId = env.GOOGLE_CLIENT_ID ?? process.env.GOOGLE_CLIENT_ID;
+const clientId = env.GOOGLE_CLIENT_ID;
 
 console.log(
 	"client id",
-	process.env.GOOGLE_CLIENT_ID,
-	"\n",
+	clientId,
+	"\n\n",
 	"GOOGLE_API_KEY",
-	process.env.GOOGLE_API_KEY
+	env.GOOGLE_API_KEY
 );
 
 const mapStateToProps = (state: any) => {
