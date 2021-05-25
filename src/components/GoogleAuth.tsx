@@ -6,7 +6,6 @@ import { connect } from "react-redux";
 import { sheetsDataRecieved, errorOccured } from "../redux/ActionCreaters";
 import { ErrorType, SheetsData } from "../shared/Type";
 import { transformErrorMessage } from "./ErrorComponent";
-// import env from "react-dotenv";
 
 const containerClass = "component google-auth";
 // using react-env for local developemnt but setting environment variable when publishing docker image
