@@ -6,6 +6,6 @@ dist
 .LSOverride
 build
 node_modules
-.env
 .vscode
+Server/.env
 public
