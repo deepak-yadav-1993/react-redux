@@ -6,19 +6,11 @@ import { connect } from "react-redux";
 import { sheetsDataRecieved, errorOccured } from "../redux/ActionCreaters";
 import { ErrorType, SheetsData } from "../shared/Type";
 import { transformErrorMessage } from "./ErrorComponent";
-import env from "react-dotenv";
+// import env from "react-dotenv";
 
 const containerClass = "component google-auth";
 // using react-env for local developemnt but setting environment variable when publishing docker image
-const clientId = env.GOOGLE_CLIENT_ID;
-
-console.log(
-	"client id",
-	clientId,
-	"\n\n",
-	"GOOGLE_API_KEY",
-	env.GOOGLE_API_KEY
-);
+const clientId = process.env.REACT_APP_GOOGLE_CLIENT_ID;
 
 const mapStateToProps = (state: any) => {
 	let { sheetData, speadSheetId, sheetId } = state.appState;
@@ -86,30 +78,34 @@ class GoogleAuth extends React.Component<any, any> {
 			this.props.loadingEnd();
 		};
 
-		return (
-			<div
-				className={containerClass}
-				onClick={(e) => this.props.loadingStart()}>
-				{this.props.loggedIn ? (
-					<GoogleLogout
-						clientId={clientId}
-						className="my-google-button-class"
-						buttonText="Logout"
-						onLogoutSuccess={logout}
-					/>
-				) : (
-					<GoogleLogin
-						clientId={clientId}
-						className="my-google-button-class"
-						onSuccess={loginSuccess}
-						onFailure={loginfailed}
-						scope="https://www.googleapis.com/auth/spreadsheets"
-						isSignedIn={true}
-						buttonText="Login with Google"
-					/>
-				)}
-			</div>
-		);
+		if (clientId) {
+			return (
+				<div
+					className={containerClass}
+					onClick={(e) => this.props.loadingStart()}>
+					{this.props.loggedIn ? (
+						<GoogleLogout
+							clientId={clientId}
+							className="my-google-button-class"
+							buttonText="Logout"
+							onLogoutSuccess={logout}
+						/>
+					) : (
+						<GoogleLogin
+							clientId={clientId}
+							className="my-google-button-class"
+							onSuccess={loginSuccess}
+							onFailure={loginfailed}
+							scope="https://www.googleapis.com/auth/spreadsheets"
+							isSignedIn={true}
+							buttonText="Login with Google"
+						/>
+					)}
+				</div>
+			);
+		} else {
+			return <div></div>;
+		}
 	}
 }
 

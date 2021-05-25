@@ -15,9 +15,7 @@ pipelines:
           - unset CI
           - npm clean-install
           - printf "GOOGLE_CLIENT_ID=$GOOGLE_CLIENT_ID\nGOOGLE_API_KEY=$GOOGLE_API_KEY">.env
-          - cat .env
           - npm run build
-          - cat build/env.js
           - export FRONTEND=deepaky193/personal_finance_app:latest
           - docker login --username $DOCKER_USERID --password $DOCKER_PASSWORD
           - docker build -t $FRONTEND --build-arg google_client_id=$GOOGLE_CLIENT_ID --build-arg google_api_key=$GOOGLE_API_KEY .
