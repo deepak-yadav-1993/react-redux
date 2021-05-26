@@ -1,4 +1,3 @@
-/* eslint-disable indent */
 import * as ActionTypes from "../ActionTypes";
 
 const defaultState = {
@@ -9,10 +8,7 @@ const defaultState = {
 	data: [],
 	speadSheetId: "1UhEWbuFZGbAP1UIZ0PBxE7UgoW2bjOSnlSJuBSOnemE",
 	sheetId: "Finances",
-	errors: [
-		{ index: 0, code: 502, message: "hello" },
-		{ index: 1, code: 404, message: "not found" },
-	],
+	errors: [],
 };
 
 export const authStore = (state = defaultState, action) => {
