@@ -52,7 +52,10 @@ const GoogleAuth = (props: any) => {
 
 	const onClickHandler = (e: any) => {
 		const buttonElement = document.querySelector(".my-google-button-class");
-		if (buttonElement?.contains(e.target)) props.loadingStart();
+		if (buttonElement?.contains(e.target)) {
+			props.loadingStart();
+			e.stopPropagation();
+		}
 	};
 
 	const loginSuccess = async (response: any) => {
@@ -83,8 +86,8 @@ const GoogleAuth = (props: any) => {
 
 	const handleLogout = () => {
 		console.log("Logged Out");
-		props.loadingEnd();
 		props.onLogout();
+		props.loadingEnd();
 	};
 
 	const loginfailed = ({ error: message }: any) => {
