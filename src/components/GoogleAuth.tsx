@@ -81,10 +81,10 @@ const GoogleAuth = (props: any) => {
 		}
 	};
 
-	const logout = () => {
+	const handleLogout = () => {
 		console.log("Logged Out");
-		props.onLogout();
 		props.loadingEnd();
+		props.onLogout();
 	};
 
 	const loginfailed = ({ error: message }: any) => {
@@ -99,7 +99,7 @@ const GoogleAuth = (props: any) => {
 					clientId={googleClientId}
 					className="my-google-button-class"
 					buttonText="Logout"
-					onLogoutSuccess={logout}
+					onLogoutSuccess={handleLogout}
 				/>
 			);
 		} else {

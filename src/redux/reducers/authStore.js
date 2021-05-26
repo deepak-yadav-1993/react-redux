@@ -16,7 +16,7 @@ export const authStore = (state = defaultState, action) => {
 		case ActionTypes.USER_LOGGEDIN:
 			return { ...state, loggedIn: true, userData: action.payload };
 		case ActionTypes.USER_LOGGEDOUT:
-			return defaultState;
+			return { ...state, ...defaultState };
 		case ActionTypes.LOADING_START:
 			return { ...state, isLoading: true };
 		case ActionTypes.LOADING_END:
