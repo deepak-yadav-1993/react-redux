@@ -100,7 +100,7 @@ const GoogleAuth = (props: any) => {
 			<GoogleLogout
 				key="google-logout-button"
 				clientId={googleClientId}
-				className="my-google-button-class"
+				className="my-google-button-class logout"
 				buttonText="Logout"
 				onLogoutSuccess={handleLogout}
 			/>
@@ -108,7 +108,7 @@ const GoogleAuth = (props: any) => {
 			<GoogleLogin
 				key="google-login-button"
 				clientId={googleClientId}
-				className="my-google-button-class"
+				className="my-google-button-class login"
 				onSuccess={loginSuccess}
 				onFailure={loginfailed}
 				scope="https://www.googleapis.com/auth/spreadsheets"

@@ -5,79 +5,88 @@ $color-white: white;
 $base-contrast-colr: rgb(255, 106, 130);
 
 .generic-color {
-  text-align: center;
-  background-color: $base-background-color !important;
+	text-align: center;
+	background-color: $base-background-color !important;
 }
 .my-google-button-class {
-  border: 1px solid $color-white !important;
-  border-radius: 1px !important;
-  background-color: $base-background-color !important;
-  div {
-    background-color: $base-background-color !important;
-  }
-  span {
-    font-weight: $bold !important;
-    color: $color-white !important;
-  }
+	border: 1px solid $color-white !important;
+	border-radius: 1px !important;
+	background-color: $base-background-color !important;
+	div {
+		background-color: $base-background-color !important;
+	}
+	span {
+		font-weight: $bold !important;
+		color: $color-white !important;
+	}
 }
 
 .component.main {
-  /* background-color: #282c34; */
-  min-height: 100vh;
-  position: relative;
-  // display: flex;
-  // flex-direction: column;
-  // align-items: center;
-  // justify-content: center;
-  // color: $color-white;
-  // width: 100%;
-  .loading-container {
-    padding: 1vh 0;
-  }
+	/* background-color: #282c34; */
+	min-height: 100vh;
+	position: relative;
+	// display: flex;
+	// flex-direction: column;
+	// align-items: center;
+	// justify-content: center;
+	// color: $color-white;
+	// width: 100%;
+	.loading-container {
+		padding: 1vh 0;
+	}
 }
+
+.component.google-auth {
+	position: relative;
+	.my-google-button-class.logout {
+		position: absolute;
+		transform: translate(30vw, 5px);
+	}
+}
+
 .MuiLinearProgress-colorSecondary {
-  background-color: $color-white !important;
+	background-color: $color-white !important;
 }
 .MuiLinearProgress-barColorSecondary {
-  background-color: $base-background-color !important;
+	background-color: $base-background-color !important;
 }
 
 @keyframes rotate {
-  0% {
-    transform: rotate(0deg);
-    transform-origin: 50% 50%;
-  }
-  100% {
-    transform: rotate(360deg);
-  }
+	0% {
+		transform: rotate(0deg);
+		transform-origin: 50% 50%;
+	}
+	100% {
+		transform: rotate(360deg);
+	}
 }
 
 .my-google-button-class {
-  &:hover {
-    background-color: $color-white !important;
-    box-shadow: none !important;
-    div,
-    span {
-      background-color: $color-white !important;
-      color: $base-background-color !important;
-    }
-    svg {
-      animation: rotate 500ms ease-in-out;
-    }
-  }
+	&:hover {
+		background-color: $color-white !important;
+		box-shadow: none !important;
+		div,
+		span {
+			background-color: $color-white !important;
+			color: $base-background-color !important;
+		}
+		svg {
+			animation: rotate 500ms ease-in-out;
+		}
+	}
 }
 .MuiContainer-fixed {
-  padding: 8px 0;
+	padding: 8px 0;
 }
 
 #overlay {
-  position: absolute; /* Sit on top of the page content */
-  width: 100% !important; /* Full width (cover the whole page) */
-  height: 98vh !important; /* Full height (cover the whole page) */
-  top: 2vh;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-color: rgba(0, 42, 58, 0.85); /* Black background with opacity */
-  z-index: 2; /* Specify a stack order in case you're using a different order for other elements */
+	position: absolute; /* Sit on top of the page content */
+	width: 100% !important; /* Full width (cover the whole page) */
+	height: 98vh !important; /* Full height (cover the whole page) */
+	top: 2vh;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	background-color: rgba(0, 42, 58, 0.85); /* Black background with opacity */
+	z-index: 2; /* Specify a stack order in case you're using a different order for other elements */
 }
