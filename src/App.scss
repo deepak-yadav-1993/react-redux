@@ -36,13 +36,13 @@ $base-contrast-colr: rgb(255, 106, 130);
 	}
 }
 
-.component.google-auth {
-	position: relative;
-	.my-google-button-class.logout {
-		position: absolute;
-		transform: translate(30vw, 5px);
-	}
-}
+// .component.google-auth {
+// 	position: relative;
+// 	.my-google-button-class.logout {
+// 		position: absolute;
+// 		transform: translate(30vw, 5px);
+// 	}
+// }
 
 .MuiLinearProgress-colorSecondary {
 	background-color: $color-white !important;

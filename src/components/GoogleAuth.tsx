@@ -52,7 +52,6 @@ const GoogleAuth = (props: any) => {
 
 	const onClickHandler = (e: any) => {
 		const buttonElement = document.querySelector(".my-google-button-class");
-		console.log(e.target);
 		if (buttonElement?.contains(e.target)) {
 			props.loadingStart();
 			e.stopPropagation();
