@@ -93,28 +93,24 @@ const GoogleAuth = (props: any) => {
 	};
 
 	const _renderButton = (googleClientId: any) => {
-		if (props.loggedIn) {
-			return (
-				<GoogleLogout
-					clientId={googleClientId}
-					className="my-google-button-class"
-					buttonText="Logout"
-					onLogoutSuccess={handleLogout}
-				/>
-			);
-		} else {
-			return (
-				<GoogleLogin
-					clientId={googleClientId}
-					className="my-google-button-class"
-					onSuccess={loginSuccess}
-					onFailure={loginfailed}
-					scope="https://www.googleapis.com/auth/spreadsheets"
-					isSignedIn={true}
-					buttonText="Login with Google"
-				/>
-			);
-		}
+		return props.loggedIn ? (
+			<GoogleLogout
+				clientId={googleClientId}
+				className="my-google-button-class"
+				buttonText="Logout"
+				onLogoutSuccess={handleLogout}
+			/>
+		) : (
+			<GoogleLogin
+				clientId={googleClientId}
+				className="my-google-button-class"
+				onSuccess={loginSuccess}
+				onFailure={loginfailed}
+				scope="https://www.googleapis.com/auth/spreadsheets"
+				isSignedIn={true}
+				buttonText="Login with Google"
+			/>
+		);
 	};
 	return <div className={containerClass}>{_renderButton(googleClientId)}</div>;
 };
