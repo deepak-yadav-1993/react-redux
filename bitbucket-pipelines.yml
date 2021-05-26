@@ -17,8 +17,7 @@ pipelines:
           - npm run build
           - export FRONTEND=deepaky193/personal_finance_app:latest
           - docker login --username $DOCKER_USERID --password $DOCKER_PASSWORD
-          - docker build -t $FRONTEND .
-          - docker push $FRONTEND
+          - npm run publishImage
         condition:
           changesets:
             includePaths:
