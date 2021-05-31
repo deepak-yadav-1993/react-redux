@@ -1,11 +1,6 @@
 import * as d3 from "d3";
 import React, { FC, useRef, useEffect } from "react";
-
-type ChartProps = {
-	chartData: number[];
-	height: number;
-	width: number;
-};
+import { ChartProps } from "../shared/Type";
 
 const BarChart = ({ chartData, height, width }: ChartProps) => {
 	const d3Container = useRef(null);

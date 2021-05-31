@@ -19,3 +19,9 @@ export type dbState = Readonly<{
 	sheetId: string;
 	errors: [ErrorType];
 }>;
+
+export type ChartProps = {
+	chartData: number[];
+	height: number;
+	width: number;
+};
