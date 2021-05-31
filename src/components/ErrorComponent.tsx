@@ -1,6 +1,6 @@
 import React from "react";
 import { connect } from "react-redux";
-import { errorDismissed } from "../redux/ActionCreaters";
+import { onErrorDismissed } from "../redux/ActionCreaters";
 import { ErrorType } from "../shared/Type";
 import { Alert } from "@material-ui/lab";
 import { Container } from "@material-ui/core";
@@ -33,7 +33,7 @@ const mapStateToProps = (state: any) => ({
 
 const mapDispatchToProps = (dispatch: any) => {
 	return {
-		errorDismissed: (error: number) => dispatch(errorDismissed(error)),
+		errorDismissed: (error: number) => dispatch(onErrorDismissed(error)),
 	};
 };
 

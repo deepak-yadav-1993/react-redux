@@ -1,6 +1,6 @@
 export type ErrorType = Readonly<{
 	index?: number;
-	code: number;
+	code?: number;
 	message: string;
 }>;
 

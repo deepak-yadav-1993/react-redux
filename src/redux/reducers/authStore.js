@@ -9,6 +9,7 @@ const defaultState = {
 	speadSheetId: "1UhEWbuFZGbAP1UIZ0PBxE7UgoW2bjOSnlSJuBSOnemE",
 	sheetId: "Finances",
 	errors: [],
+	chartData: [10, 1],
 };
 
 export const authStore = (state = defaultState, action) => {
@@ -40,6 +41,11 @@ export const authStore = (state = defaultState, action) => {
 				errors: state.errors.filter((error) => {
 					return error.index !== action.payload;
 				}),
+			};
+		case ActionTypes.ADD_CHART_DATA:
+			return {
+				...state,
+				chartData: state.chartData.concat(Math.floor(Math.random() * 10)),
 			};
 		default:
 			return state;

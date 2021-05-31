@@ -1,5 +1,7 @@
 import React from "react";
 import GoogleAuthComponent from "./GoogleAuth";
+import BarChart from "./BarChart";
+import Drawer from "@material-ui/core/Drawer";
 import {
 	BottomNavigation,
 	BottomNavigationAction,
@@ -7,32 +9,32 @@ import {
 } from "@material-ui/core";
 import FavoriteIcon from "@material-ui/icons/Favorite";
 import RestoreIcon from "@material-ui/icons/Restore";
-// import LocationOnIcon from "@material-ui/icons/LocationOn";
 import { connect } from "react-redux";
 import { LinearProgress } from "@material-ui/core";
 import ErrorComponent from "./ErrorComponent";
-// import banner from "../images/banner.ai";
 import {
-	loginSuccess,
-	logoutSuccess,
-	loadingStart,
-	loadingEnd,
-	errorOccured,
+	onLoginSuccess,
+	onLogoutSuccess,
+	onLoadingStart,
+	onLoadingEnd,
+	onAddChartData,
+	onErrorOccured,
 } from "../redux/ActionCreaters";
 
-const mapStateToProps = (state: any) => {
+const mapStateToProps = ({ appState }: any) => {
 	return {
-		appState: state.appState,
+		...appState,
 	};
 };
 
 const mapDispatchToProps = (dispatch: any) => {
 	return {
-		loginSuccess: (userdata: Object) => dispatch(loginSuccess(userdata)),
-		logoutSuccess: () => dispatch(logoutSuccess()),
-		loadingStart: () => dispatch(loadingStart()),
-		loadingEnd: () => dispatch(loadingEnd()),
-		errorOccured: (error: any) => dispatch(errorOccured(error)),
+		onLoginSuccess: (userdata: Object) => dispatch(onLoginSuccess(userdata)),
+		onLogoutSuccess: () => dispatch(onLogoutSuccess()),
+		onLoadingStart: () => dispatch(onLoadingStart()),
+		onLoadingEnd: () => dispatch(onLoadingEnd()),
+		onAddChartData: () => dispatch(onAddChartData()),
+		onErrorOccured: (error: any) => dispatch(onErrorOccured(error)),
 	};
 };
 
@@ -48,7 +50,7 @@ const defaultElements = {
 
 class MainComponent extends React.Component<any, any> {
 	render() {
-		const loading = this.props.appState.isLoading ? (
+		const loading = this.props.isLoading ? (
 			<LinearProgress color="secondary" style={{ height: "4px" }} />
 		) : (
 			<div
@@ -57,25 +59,33 @@ class MainComponent extends React.Component<any, any> {
 				}}
 			/>
 		);
-		const overlayRender = this.props.appState.isLoading ? (
-			<div id="overlay" />
-		) : null;
-		let { errors } = this.props.appState;
+		const overlayRender = this.props.isLoading ? <div id="overlay" /> : null;
+
+		const { errors } = this.props;
 		const errorRender = errors.length > 0 ? <ErrorComponent /> : null;
 		return (
 			<div
 				className={`${defaultElements.CONTAINER_CLASS} ${defaultElements.COLOR_GROUP}`}>
+				{/* <React.Fragment>
+					<Drawer
+						anchor={"left"}
+						open={true}
+						onClose={() => {
+							console.log("dee");
+						}}>
+						Teststing Blah blah
+					</Drawer>
+				</React.Fragment> */}
 				<div className="loading-container">{loading}</div>
 				{overlayRender}
 				<div className="error-container">{errorRender}</div>
-				{/* <img src={banner} alt="banner" /> */}
 				<Container fixed>
 					<GoogleAuthComponent
-						loggedIn={this.props.appState.loggedIn}
-						onLogIn={this.props.loginSuccess}
-						onLogout={this.props.logoutSuccess}
-						loadingStart={this.props.loadingStart}
-						loadingEnd={this.props.loadingEnd}
+						loggedIn={this.props.onLoggedIn}
+						onLogIn={this.props.onLoginSuccess}
+						onLogout={this.props.onLogoutSuccess}
+						onLoadingStart={this.props.onLoadingStart}
+						onLoadingEnd={this.props.onLoadingEnd}
 					/>
 					<BottomNavigation
 						value={"test"}
@@ -99,13 +109,16 @@ class MainComponent extends React.Component<any, any> {
 								/>
 							}
 						/>
-						{/* <BottomNavigationAction
-            label="Nearby"
-            style={{ color: defaultElements.ICON_STYLE.COLOR }}
-            icon={<LocationOnIcon style={{ color: defaultElements.ICON_STYLE.COLOR }} />}
-          /> */}
 					</BottomNavigation>
+					<button
+						onClick={(e) => {
+							this.props.onAddChartData();
+						}}>
+						Change Data
+					</button>
 				</Container>
+
+				<BarChart chartData={this.props.chartData} height={600} width={400} />
 			</div>
 		);
 	}

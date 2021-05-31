@@ -1,34 +1,38 @@
 import * as ActionTypes from "./ActionTypes";
 import { ErrorType } from "../shared/Type";
 
-export const loginSuccess = (userData: any) => ({
+export const onLoginSuccess = (userData: any) => ({
 	type: ActionTypes.USER_LOGGEDIN,
 	payload: userData,
 });
 
-export const logoutSuccess = () => ({
+export const onLogoutSuccess = () => ({
 	type: ActionTypes.USER_LOGGEDOUT,
 });
 
-export const loadingStart = () => ({
+export const onLoadingStart = () => ({
 	type: ActionTypes.LOADING_START,
 });
 
-export const loadingEnd = () => ({
+export const onLoadingEnd = () => ({
 	type: ActionTypes.LOADING_END,
 });
 
-export const sheetsDataRecieved = (sheetData: any) => ({
+export const onSheetsDataRecieved = (sheetData: any) => ({
 	type: ActionTypes.SHEETS_DATA_RECIEVED,
 	payload: sheetData,
 });
 
-export const errorOccured = (error: ErrorType) => ({
+export const onErrorOccured = (error: ErrorType) => ({
 	type: ActionTypes.ERROR_OCCURED,
 	payload: error,
 });
 
-export const errorDismissed = (index: number) => ({
+export const onErrorDismissed = (index: number) => ({
 	type: ActionTypes.ERROR_DISMISSED,
 	payload: index,
+});
+
+export const onAddChartData = () => ({
+	type: ActionTypes.ADD_CHART_DATA,
 });

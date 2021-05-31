@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { sheetsDataRecieved } from "../redux/ActionCreaters";
+import { onSheetsDataRecieved } from "../redux/ActionCreaters";
 
 const containerClass = "component user-imput-form";
 
@@ -16,7 +16,7 @@ const mapStateToProps = (state: any) => {
 const mapDispatchToProps = (dispatch: any) => {
 	return {
 		sheetsDataRecieved: (sheetData: any) =>
-			dispatch(sheetsDataRecieved(sheetData)),
+			dispatch(onSheetsDataRecieved(sheetData)),
 	};
 };
 class UserInputForm extends React.Component<any, any> {

@@ -3,7 +3,7 @@ import { GoogleLogin } from "react-google-login";
 import { GoogleLogout } from "react-google-login";
 import apiService from "../shared/ApiCallService";
 import { connect } from "react-redux";
-import { sheetsDataRecieved, errorOccured } from "../redux/ActionCreaters";
+import { onSheetsDataRecieved, onErrorOccured } from "../redux/ActionCreaters";
 import { ErrorType, SheetsData } from "../shared/Type";
 import { transformErrorMessage } from "./ErrorComponent";
 
@@ -13,19 +13,20 @@ const containerClass = "component google-auth";
 const googleClientId = process.env.REACT_APP_GOOGLE_CLIENT_ID;
 
 const mapStateToProps = (state: any) => {
-	let { sheetData, speadSheetId, sheetId } = state.appState;
+	const { sheetData, speadSheetId, sheetId, loggedIn } = state.appState;
 	return {
 		sheetData,
 		speadSheetId,
 		sheetId,
+		loggedIn,
 	};
 };
 
 const mapDispatchToProps = (dispatch: any) => {
 	return {
-		sheetsDataRecieved: (sheetData: SheetsData) =>
-			dispatch(sheetsDataRecieved(sheetData)),
-		errorOccured: (error: ErrorType) => dispatch(errorOccured(error)),
+		onSheetsDataRecieved: (sheetData: SheetsData) =>
+			dispatch(onSheetsDataRecieved(sheetData)),
+		onErrorOccured: (error: ErrorType) => dispatch(onErrorOccured(error)),
 	};
 };
 
@@ -50,22 +51,32 @@ const GoogleAuth = (props: any) => {
 		};
 	});
 
+	const {
+		loggedIn,
+		onLogIn,
+		onLogout,
+		onLoadingStart,
+		onLoadingEnd,
+		onErrorOccured,
+		onSheetsDataRecieved,
+	} = props;
+
 	const onClickHandler = (e: any) => {
 		const buttonElement = document.querySelector(".my-google-button-class");
 		if (buttonElement?.contains(e.target)) {
-			props.loadingStart();
+			onLoadingStart();
 			e.stopPropagation();
 		}
 	};
 
-	const loginSuccess = async (response: any) => {
+	const handleLoginSuccess = async (response: any) => {
 		let userProfile = {
 			name: response.profileObj.name,
 			email: response.profileObj.email,
 			imageUrl: response.profileObj.imageUrl,
 			googleId: response.profileObj.googleId,
 		};
-		props.onLogIn(userProfile);
+		onLogIn(userProfile);
 
 		try {
 			let { speadSheetId, sheetId } = props;
@@ -75,28 +86,29 @@ const GoogleAuth = (props: any) => {
 			});
 			let [header, ...data] = sheets?.data?.values ?? [];
 			data = filterData({ header, data });
-			props.sheetsDataRecieved({ header, data });
-			props.loadingEnd();
+			onSheetsDataRecieved({ header, data });
+			onLoadingEnd();
 		} catch (err) {
-			props.sheetsDataRecieved([]);
-			props.loadingEnd();
-			props.errorOccured(transformErrorMessage(err));
+			onErrorOccured(transformErrorMessage(err));
+			onSheetsDataRecieved([]);
+			onLoadingEnd();
 		}
 	};
 
 	const handleLogout = () => {
 		console.log("Logged Out");
-		props.onLogout();
-		props.loadingEnd();
+		onLogout();
+		onLoadingEnd();
 	};
 
-	const loginfailed = ({ error: message }: any) => {
-		props.errorOccured({ message });
-		props.loadingEnd();
+	const handleLoginFailed = ({ error: message }: any) => {
+		const errMsg = { message };
+		onErrorOccured(errMsg);
+		onLoadingEnd();
 	};
 
 	const _renderButton = (googleClientId: any) => {
-		return props.loggedIn ? (
+		return loggedIn ? (
 			<GoogleLogout
 				key="google-logout-button"
 				clientId={googleClientId}
@@ -109,8 +121,8 @@ const GoogleAuth = (props: any) => {
 				key="google-login-button"
 				clientId={googleClientId}
 				className="my-google-button-class login"
-				onSuccess={loginSuccess}
-				onFailure={loginfailed}
+				onSuccess={handleLoginSuccess}
+				onFailure={handleLoginFailed}
 				scope="https://www.googleapis.com/auth/spreadsheets"
 				isSignedIn={true}
 				buttonText="Login with Google"
