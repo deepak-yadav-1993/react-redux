@@ -2,7 +2,7 @@ import * as d3 from "d3";
 import React, { useRef, useEffect, useState } from "react";
 import { ChartProps } from "../shared/Type";
 
-const margin = { top: 20, right: 20, bottom: 30, left: 60 };
+const margin = { top: 30, right: 20, bottom: 30, left: 60 };
 const minimumValueOffset = 2000;
 
 const BarChart = ({ chartData, chartHeader, height, width }: ChartProps) => {
@@ -24,7 +24,7 @@ const BarChart = ({ chartData, chartHeader, height, width }: ChartProps) => {
 			.append("g")
 			.attr("transform", `translate(${margin.left}, ${margin.top})`);
 
-		const xScale = d3.scaleBand().range([0, width]).round(true).padding(0.15);
+		const xScale = d3.scaleBand().range([0, width]).round(true).padding(0.2);
 		const yScale = d3.scaleLinear().range([height, 0]);
 		const total = chartData.map((item: any) => parseInt(item[9]));
 
@@ -56,19 +56,36 @@ const BarChart = ({ chartData, chartHeader, height, width }: ChartProps) => {
 
 		const onMouseOver = function (this: any, d: any, i: any) {
 			var ref = this;
+
 			d3.select(ref)
 				.transition() // adds animation
-				.duration(100)
+				.duration(200)
 				.attr("fill", "orange")
 				.attr("width", xScale.bandwidth() + 1);
+
+			d3.select(ref.parentNode)
+				.transition() // adds animation
+				.duration(200)
+				.select(".text")
+				.attr("font-size", 12)
+				.attr("font-weight", "bold")
+				.attr("transform", "translate(-5, -2)");
 		};
 		const onMouseOut = function (this: any, d: any, i: any) {
 			var ref = this;
 			d3.select(ref)
 				.transition() // adds animation
-				.duration(100)
+				.duration(200)
 				.attr("width", xScale.bandwidth())
-				.attr("fill", "black");
+				.attr("fill", "rgb(0, 42, 58)");
+
+			d3.select(ref.parentNode)
+				.transition() // adds animation
+				.duration(200)
+				.select(".text")
+				.attr("font-size", 10)
+				.attr("font-weight", "regular")
+				.attr("transform", "translate(0,0)");
 		};
 		const barGroup = update
 			.selectAll(".bar-group")
@@ -85,11 +102,13 @@ const BarChart = ({ chartData, chartHeader, height, width }: ChartProps) => {
 			.attr("x", (d: any): any => xScale(d[0]))
 			.attr("y", (d: any): any => yScale(d[9]))
 			.attr("width", xScale.bandwidth())
+			.attr("fill", "rgb(0, 42, 58)")
 			.attr("height", (d: any): any => height - yScale(d[9]));
 		barGroup
 			.append("text")
 			.text((d: any) => `$ ${d[9]}`)
 			.attr("font-size", 10)
+			.attr("class", "text")
 			.attr("x", (d: any): any => xScale(d[0]))
 			.attr("y", (d: any): any => yScale(d[9]) - 8);
 		// Remove old D3 elements
