@@ -45,9 +45,13 @@ const filterData = ({ header, data }: SheetsData) => {
 		});
 	});
 
-	return transformedData.filter(
+	const result = transformedData.filter(
 		(row: any) => row.length === header.length && !row.some(emptyRecord)
 	);
+	// Send record of last 12 months year
+	return result.length > 12
+		? result.slice(result.length - 12, result.length)
+		: result;
 };
 
 const GoogleAuth = (props: any) => {

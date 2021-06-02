@@ -67,7 +67,7 @@ class MainComponent extends React.Component<any, any> {
 				chartData={this.props.data}
 				chartHeader={this.props.header}
 				height={700}
-				width={1000}
+				width={900}
 			/>
 		) : (
 			<React.Fragment />
