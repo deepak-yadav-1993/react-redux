@@ -1,5 +1,5 @@
 import * as d3 from "d3";
-import React, { useRef, useEffect } from "react";
+import React, { useRef, useEffect, useState } from "react";
 import { ChartProps } from "../shared/Type";
 
 const margin = { top: 20, right: 20, bottom: 30, left: 60 };
@@ -7,6 +7,7 @@ const minimumValueOffset = 2000;
 
 const BarChart = ({ chartData, chartHeader, height, width }: ChartProps) => {
 	const d3Container = useRef(null);
+	const [selection, setSelection] = useState("");
 
 	/* The useEffect Hook is for running side effects outside of React,
        for instance inserting elements into the DOM using D3 */
@@ -63,7 +64,6 @@ const BarChart = ({ chartData, chartHeader, height, width }: ChartProps) => {
 		};
 		const onMouseOut = function (this: any, d: any, i: any) {
 			var ref = this;
-			d3.select(ref).attr("class", "bar");
 			d3.select(ref)
 				.transition() // adds animation
 				.duration(100)

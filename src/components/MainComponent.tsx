@@ -92,6 +92,7 @@ class MainComponent extends React.Component<any, any> {
 				<div className="loading-container">{loading}</div>
 				{overlayRender}
 				<div className="error-container">{errorRender}</div>
+				{renderBarChart}
 				<Container fixed>
 					<GoogleAuthComponent
 						loggedIn={this.props.onLoggedIn}
@@ -124,7 +125,6 @@ class MainComponent extends React.Component<any, any> {
 						/>
 					</BottomNavigation>
 				</Container>
-				{renderBarChart}
 			</div>
 		);
 	}
