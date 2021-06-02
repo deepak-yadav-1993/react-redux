@@ -42,11 +42,6 @@ export const authStore = (state = defaultState, action) => {
 					return error.index !== action.payload;
 				}),
 			};
-		case ActionTypes.ADD_CHART_DATA:
-			return {
-				...state,
-				chartData: state.chartData.concat(Math.floor(Math.random() * 10)),
-			};
 		default:
 			return state;
 	}

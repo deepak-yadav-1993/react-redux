@@ -2,8 +2,8 @@ import * as d3 from "d3";
 import React, { useRef, useEffect } from "react";
 import { ChartProps } from "../shared/Type";
 
-// let width = 800,
-// 	height = 400;
+const xOffset = 55;
+const yOffset = 10;
 
 const BarChart = ({ chartData, chartHeader, height, width }: ChartProps) => {
 	const d3Container = useRef(null);
@@ -17,17 +17,17 @@ const BarChart = ({ chartData, chartHeader, height, width }: ChartProps) => {
 			// Bind D3 data
 			const update = svg
 				.append("g")
-				.attr("transform", "translate(" + 60 + "," + 5 + ")");
+				.attr("transform", `translate(${xOffset}, ${yOffset})`);
 
-			const xScale = d3.scaleBand().range([0, width - 80]);
-			const yScale = d3.scaleLinear().range([height - 30, 0]);
+			const xScale = d3.scaleBand().range([0, width - (xOffset + 10)]);
+			const yScale = d3.scaleLinear().range([height - 40, 0]);
 			const total = chartData.map((item: any) => parseInt(item[9]));
 			xScale.domain(chartData.map((item: any) => item[0]));
 			yScale.domain([Math.min(...total), Math.max(...total)]);
 
 			update
 				.append("g")
-				.attr("transform", `translate(0,${height - 30})`)
+				.attr("transform", `translate(0,${height - 40})`)
 				.call(d3.axisBottom(xScale));
 
 			update
@@ -35,9 +35,7 @@ const BarChart = ({ chartData, chartHeader, height, width }: ChartProps) => {
 				.call(
 					d3
 						.axisLeft(yScale)
-						.tickFormat(function (d) {
-							return "$" + d;
-						})
+						.tickFormat((yAxisValue: any) => "$" + yAxisValue)
 						.ticks(10)
 				)
 				.append("text")

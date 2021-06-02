@@ -32,7 +32,3 @@ export const onErrorDismissed = (index: number) => ({
 	type: ActionTypes.ERROR_DISMISSED,
 	payload: index,
 });
-
-export const onAddChartData = () => ({
-	type: ActionTypes.ADD_CHART_DATA,
-});

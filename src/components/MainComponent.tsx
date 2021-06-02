@@ -17,7 +17,6 @@ import {
 	onLogoutSuccess,
 	onLoadingStart,
 	onLoadingEnd,
-	onAddChartData,
 	onErrorOccured,
 } from "../redux/ActionCreaters";
 
@@ -33,7 +32,6 @@ const mapDispatchToProps = (dispatch: any) => {
 		onLogoutSuccess: () => dispatch(onLogoutSuccess()),
 		onLoadingStart: () => dispatch(onLoadingStart()),
 		onLoadingEnd: () => dispatch(onLoadingEnd()),
-		onAddChartData: () => dispatch(onAddChartData()),
 		onErrorOccured: (error: any) => dispatch(onErrorOccured(error)),
 	};
 };
@@ -110,12 +108,6 @@ class MainComponent extends React.Component<any, any> {
 							}
 						/>
 					</BottomNavigation>
-					<button
-						onClick={(e) => {
-							this.props.onAddChartData();
-						}}>
-						Change Data
-					</button>
 				</Container>
 
 				<BarChart
