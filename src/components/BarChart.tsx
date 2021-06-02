@@ -1,30 +1,50 @@
 import * as d3 from "d3";
-import React, { FC, useRef, useEffect } from "react";
+import React, { useRef, useEffect } from "react";
 import { ChartProps } from "../shared/Type";
 
-const BarChart = ({ chartData, height, width }: ChartProps) => {
+// let width = 800,
+// 	height = 400;
+
+const BarChart = ({ chartData, chartHeader, height, width }: ChartProps) => {
 	const d3Container = useRef(null);
 
 	/* The useEffect Hook is for running side effects outside of React,
        for instance inserting elements into the DOM using D3 */
 	useEffect(() => {
-		if (chartData && d3Container.current) {
+		if (chartData !== undefined && d3Container.current) {
 			const svg = d3.select(d3Container.current);
 
 			// Bind D3 data
-			const update = svg.append("g").selectAll("text").data(chartData);
+			const update = svg
+				.append("g")
+				.attr("transform", "translate(" + 60 + "," + 5 + ")");
 
-			// Enter new D3 elements
+			const xScale = d3.scaleBand().range([0, width - 80]);
+			const yScale = d3.scaleLinear().range([height - 30, 0]);
+			const total = chartData.map((item: any) => parseInt(item[9]));
+			xScale.domain(chartData.map((item: any) => item[0]));
+			yScale.domain([Math.min(...total), Math.max(...total)]);
+
 			update
-				.enter()
-				.append("text")
-				.attr("x", (d, i) => i * 50)
-				.attr("y", 40)
-				.style("font-size", 20)
-				.text((d: any) => d);
+				.append("g")
+				.attr("transform", `translate(0,${height - 30})`)
+				.call(d3.axisBottom(xScale));
 
-			// Update existing D3 elements
-			update.attr("x", (d, i) => i * 40).text((d: any) => d);
+			update
+				.append("g")
+				.call(
+					d3
+						.axisLeft(yScale)
+						.tickFormat(function (d) {
+							return "$" + d;
+						})
+						.ticks(10)
+				)
+				.append("text")
+				.attr("y", 6)
+				.attr("dy", "0.71em")
+				.attr("text-anchor", "end")
+				.text("value");
 
 			// Remove old D3 elements
 			update.exit().remove();
@@ -36,6 +56,7 @@ const BarChart = ({ chartData, height, width }: ChartProps) => {
 			className="d3-component"
 			width={width}
 			height={height}
+			style={{ backgroundColor: "white" }}
 			ref={d3Container}
 		/>
 	);

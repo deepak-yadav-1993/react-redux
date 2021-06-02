@@ -22,6 +22,7 @@ export type dbState = Readonly<{
 
 export type ChartProps = {
 	chartData: number[];
+	chartHeader: number[];
 	height: number;
 	width: number;
 };

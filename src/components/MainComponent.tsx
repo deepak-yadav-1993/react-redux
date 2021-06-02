@@ -118,7 +118,12 @@ class MainComponent extends React.Component<any, any> {
 					</button>
 				</Container>
 
-				<BarChart chartData={this.props.chartData} height={600} width={400} />
+				<BarChart
+					chartData={this.props.data}
+					chartHeader={this.props.header}
+					height={600}
+					width={1200}
+				/>
 			</div>
 		);
 	}

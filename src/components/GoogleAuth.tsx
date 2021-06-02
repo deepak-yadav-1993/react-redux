@@ -29,7 +29,7 @@ const mapDispatchToProps = (dispatch: any) => {
 		onErrorOccured: (error: ErrorType) => dispatch(onErrorOccured(error)),
 	};
 };
-
+const emptyRecord = (element: any) => element === "";
 /**
  * This function filters out the rows that do not have values for the
  * headers
@@ -38,7 +38,16 @@ const mapDispatchToProps = (dispatch: any) => {
  * @param data [string]: An array of data values
  */
 const filterData = ({ header, data }: SheetsData) => {
-	return data.filter((row: any) => row.length === header.length);
+	const transformedData = data.map((row: any) => {
+		return row.map((item: any) => {
+			const record = item.replace("$", "");
+			return record.replace(",", "");
+		});
+	});
+
+	return transformedData.filter(
+		(row: any) => row.length === header.length && !row.some(emptyRecord)
+	);
 };
 
 const GoogleAuth = (props: any) => {
