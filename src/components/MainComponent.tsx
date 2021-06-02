@@ -57,10 +57,25 @@ class MainComponent extends React.Component<any, any> {
 				}}
 			/>
 		);
-		const overlayRender = this.props.isLoading ? <div id="overlay" /> : null;
+		const overlayRender = this.props.isLoading ? (
+			<div id="overlay" />
+		) : (
+			<React.Fragment />
+		);
+		const renderBarChart = this.props.loggedIn ? (
+			<BarChart
+				chartData={this.props.data}
+				chartHeader={this.props.header}
+				height={700}
+				width={1000}
+			/>
+		) : (
+			<React.Fragment />
+		);
 
 		const { errors } = this.props;
-		const errorRender = errors.length > 0 ? <ErrorComponent /> : null;
+		const errorRender =
+			errors.length > 0 ? <ErrorComponent /> : <React.Fragment />;
 		return (
 			<div
 				className={`${defaultElements.CONTAINER_CLASS} ${defaultElements.COLOR_GROUP}`}>
@@ -109,13 +124,7 @@ class MainComponent extends React.Component<any, any> {
 						/>
 					</BottomNavigation>
 				</Container>
-
-				<BarChart
-					chartData={this.props.data}
-					chartHeader={this.props.header}
-					height={600}
-					width={1200}
-				/>
+				{renderBarChart}
 			</div>
 		);
 	}
