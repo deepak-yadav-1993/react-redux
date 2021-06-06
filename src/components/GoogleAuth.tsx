@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { GoogleLogin } from "react-google-login";
 import { GoogleLogout } from "react-google-login";
-import apiService from "../shared/ApiCallService";
+import APIService from "../shared/ApiCallService";
 import { connect } from "react-redux";
 import { onSheetsDataRecieved, onErrorOccured } from "../redux/ActionCreaters";
 import { ErrorType, SheetsData } from "../shared/Type";
@@ -29,7 +29,7 @@ const mapDispatchToProps = (dispatch: any) => {
 		onErrorOccured: (error: ErrorType) => dispatch(onErrorOccured(error)),
 	};
 };
-const emptyRecord = (element: any) => element === "";
+const emptyRecord = (element: string) => element === "";
 /**
  * This function filters out the rows that do not have values for the
  * headers
@@ -48,6 +48,7 @@ const filterData = ({ header, data }: SheetsData) => {
 	const result = transformedData.filter(
 		(row: any) => row.length === header.length && !row.some(emptyRecord)
 	);
+
 	// Send record of last 12 months year
 	return result.length > 12
 		? result.slice(result.length - 12, result.length)
@@ -59,7 +60,8 @@ const GoogleAuth = (props: any) => {
 	useEffect(() => {
 		// Update the document title using the browser API
 		window.addEventListener("click", onClickHandler);
-		return function cleanup() {
+		return () => {
+			// Cleanup
 			window.removeEventListener("click", onClickHandler);
 		};
 	});
@@ -83,7 +85,7 @@ const GoogleAuth = (props: any) => {
 	};
 
 	const handleLoginSuccess = async (response: any) => {
-		let userProfile = {
+		const userProfile = {
 			name: response.profileObj.name,
 			email: response.profileObj.email,
 			imageUrl: response.profileObj.imageUrl,
@@ -91,9 +93,15 @@ const GoogleAuth = (props: any) => {
 		};
 		onLogIn(userProfile);
 
+		const apiService = new APIService(response.accessToken);
+
 		try {
-			let { speadSheetId, sheetId } = props;
-			let sheets = await new apiService(response.accessToken).getSheetData({
+			const { speadSheetId, sheetId } = props;
+			// const test = await apiService.getLoginHistory({
+			// 	maxResults: 45,
+			// });
+			// console.log(test);
+			const sheets = await apiService.getSheetData({
 				speadSheetId,
 				sheetId,
 			});
@@ -102,6 +110,7 @@ const GoogleAuth = (props: any) => {
 			onSheetsDataRecieved({ header, data });
 			onLoadingEnd();
 		} catch (err) {
+			console.log(err);
 			onErrorOccured(transformErrorMessage(err));
 			onSheetsDataRecieved([]);
 			onLoadingEnd();
@@ -109,7 +118,6 @@ const GoogleAuth = (props: any) => {
 	};
 
 	const handleLogout = () => {
-		console.log("Logged Out");
 		onLogout();
 		onLoadingEnd();
 	};

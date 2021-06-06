@@ -48,8 +48,10 @@ const defaultElements = {
 
 class MainComponent extends React.Component<any, any> {
 	render() {
-		const loading = this.props.isLoading ? (
-			<LinearProgress color="secondary" style={{ height: "4px" }} />
+		const renderLoading = this.props.isLoading ? (
+			<div className="loading-container">
+				<LinearProgress color="secondary" style={{ height: "4px" }} />
+			</div>
 		) : (
 			<div
 				style={{
@@ -57,8 +59,10 @@ class MainComponent extends React.Component<any, any> {
 				}}
 			/>
 		);
-		const overlayRender = this.props.isLoading ? (
-			<div id="overlay" />
+		const renderOverlay = this.props.isLoading ? (
+			<div className="error-container">
+				<div id="overlay" />
+			</div>
 		) : (
 			<React.Fragment />
 		);
@@ -74,7 +78,7 @@ class MainComponent extends React.Component<any, any> {
 		);
 
 		const { errors } = this.props;
-		const errorRender =
+		const renderError =
 			errors.length > 0 ? <ErrorComponent /> : <React.Fragment />;
 		return (
 			<div
@@ -89,9 +93,9 @@ class MainComponent extends React.Component<any, any> {
 						Teststing Blah blah
 					</Drawer>
 				</React.Fragment> */}
-				<div className="loading-container">{loading}</div>
-				{overlayRender}
-				<div className="error-container">{errorRender}</div>
+				{renderLoading}
+				{renderOverlay}
+				{renderError}
 				{renderBarChart}
 				<Container fixed>
 					<GoogleAuthComponent
