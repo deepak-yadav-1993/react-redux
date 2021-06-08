@@ -11,7 +11,7 @@ I am using the bitbucket pipeline to do a continuous delivery to my [Dockerhub](
 
 ### Backend
 
-The data used in the application is currently being fetched from google sheets (on google Drive). The plan is move that data ot start recording the data on a Nodejs Server located at /Server directory.
+The data used in the application is currently being fetched from google sheets (on google Drive). Future plan is to move that data or start recording the data on a Nodejs Server located at `/Server` directory.
 
 ### Application Demo
 
