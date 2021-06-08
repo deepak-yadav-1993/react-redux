@@ -70,7 +70,7 @@ class MainComponent extends React.Component<any, any> {
 			<BarChart
 				chartData={this.props.data}
 				chartHeader={this.props.header}
-				height={700}
+				height={600}
 				width={900}
 			/>
 		) : (

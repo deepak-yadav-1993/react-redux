@@ -4,10 +4,11 @@ import { ChartProps } from "../shared/Type";
 
 const margin = { top: 30, right: 20, bottom: 30, left: 60 };
 const minimumValueOffset = 2000;
+const targetNetworth = 20000;
 
 const BarChart = ({ chartData, chartHeader, height, width }: ChartProps) => {
 	const d3Container = useRef(null);
-	const [selection, setSelection] = useState("");
+	const [selection, setSelection] = useState([]);
 
 	/* The useEffect Hook is for running side effects outside of React,
        for instance inserting elements into the DOM using D3 */
@@ -24,9 +25,9 @@ const BarChart = ({ chartData, chartHeader, height, width }: ChartProps) => {
 			.append("g")
 			.attr("transform", `translate(${margin.left}, ${margin.top})`);
 
-		const xScale = d3.scaleBand().range([0, width]).round(true).padding(0.2);
+		const xScale = d3.scaleBand().range([0, width]).round(true).padding(0.25);
 		const yScale = d3.scaleLinear().range([height, 0]);
-		const total = chartData.map((item: any) => parseInt(item[9]));
+		const total = chartData.map((item: any) => parseFloat(item[9]));
 
 		xScale.domain(chartData.map((item: any) => item[0]));
 		yScale.domain([
@@ -44,7 +45,7 @@ const BarChart = ({ chartData, chartHeader, height, width }: ChartProps) => {
 			.call(
 				d3
 					.axisLeft(yScale)
-					.tickFormat((yAxisValue: any) => "$" + yAxisValue)
+					.tickFormat((yAxisValue: any) => "$" + yAxisValue.toLocaleString())
 					.ticks(8)
 			)
 			.append("text")
@@ -56,6 +57,7 @@ const BarChart = ({ chartData, chartHeader, height, width }: ChartProps) => {
 
 		const onMouseOver = function (this: any, d: any, i: any) {
 			var ref = this;
+			setSelection(i);
 
 			d3.select(ref)
 				.transition() // adds animation
@@ -69,15 +71,18 @@ const BarChart = ({ chartData, chartHeader, height, width }: ChartProps) => {
 				.select(".text")
 				.attr("font-size", 12)
 				.attr("font-weight", "bold")
-				.attr("transform", "translate(-5, -2)");
+				.attr("transform", "translate(-7, -2)");
 		};
+
 		const onMouseOut = function (this: any, d: any, i: any) {
 			var ref = this;
+			setSelection([]);
+
 			d3.select(ref)
 				.transition() // adds animation
 				.duration(200)
 				.attr("width", xScale.bandwidth())
-				.attr("fill", "rgb(0, 42, 58)");
+				.attr("fill", barColor(i[9]));
 
 			d3.select(ref.parentNode)
 				.transition() // adds animation
@@ -102,17 +107,57 @@ const BarChart = ({ chartData, chartHeader, height, width }: ChartProps) => {
 			.attr("x", (d: any): any => xScale(d[0]))
 			.attr("y", (d: any): any => yScale(d[9]))
 			.attr("width", xScale.bandwidth())
-			.attr("fill", "rgb(0, 42, 58)")
+			.attr("fill", (d: any): any => barColor(d[9]))
 			.attr("height", (d: any): any => height - yScale(d[9]));
 		barGroup
 			.append("text")
-			.text((d: any) => `$ ${d[9]}`)
+			.text((d: any) => `$ ${numberStringToLocale(d[9])}`)
 			.attr("font-size", 10)
 			.attr("class", "text")
 			.attr("x", (d: any): any => xScale(d[0]))
 			.attr("y", (d: any): any => yScale(d[9]) - 8);
+
 		// Remove old D3 elements
 		update.exit().remove();
+	};
+
+	const numberStringToLocale = (num: string) => {
+		return parseFloat(num).toLocaleString();
+	};
+
+	const barColor = (value: string) =>
+		parseFloat(value) > targetNetworth
+			? "rgb(0, 42, 58)"
+			: "rgba(220,20,60,.75)";
+
+	const renderInfo = () => {
+		const textX = margin.left + margin.right;
+		const textY = margin.left;
+		return (
+			<g className="info">
+				<text
+					x={textX}
+					y={textY - 20}
+					fontWeight="bold"
+					fontSize="14px"
+					fill="rgb(0, 42, 58)">
+					Target Net Worth: ${targetNetworth.toLocaleString()}
+				</text>
+				{selection.length > 0 ? (
+					<text
+						x={textX}
+						y={textY}
+						fontWeight="bold"
+						fontSize="14px"
+						fill={barColor(selection[9])}>
+						Net Worth for {selection[0]} was $
+						{numberStringToLocale(selection[9])}
+					</text>
+				) : (
+					<React.Fragment />
+				)}
+			</g>
+		);
 	};
 
 	return (
@@ -121,8 +166,9 @@ const BarChart = ({ chartData, chartHeader, height, width }: ChartProps) => {
 			width={width + margin.left + margin.right}
 			height={height + margin.top + margin.bottom}
 			style={{ backgroundColor: "white" }}
-			ref={d3Container}
-		/>
+			ref={d3Container}>
+			{renderInfo()}
+		</svg>
 	);
 };
 

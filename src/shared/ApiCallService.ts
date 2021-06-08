@@ -3,7 +3,7 @@ import axios from "axios";
 
 // const baseSpreadsheetUrl = `https://spreadsheets.google.com/feeds/spreadsheets/private/`;
 const v4_SHEETS_API = `https://sheets.googleapis.com/v4/spreadsheets`;
-const V1_REPORTS_API = `https://www.googleapis.com/admin/reports/v1/activity/users/all/applications/login`;
+const V1_REPORTS_API = `https://www.googleapis.com/admin/reports/v1/activity/users/deepaky193@gmail.com/applications/login`;
 // const tokenPrefix = `/full?access_token=`;
 // const API_KEY = `key=${ApiKey}`;
 // const baseWorksheetUrl = `https://spreadsheets.google.com/feeds/cells/key/worksheetId/private/`;

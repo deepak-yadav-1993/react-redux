@@ -92,15 +92,10 @@ const GoogleAuth = (props: any) => {
 			googleId: response.profileObj.googleId,
 		};
 		onLogIn(userProfile);
-
 		const apiService = new APIService(response.accessToken);
 
 		try {
 			const { speadSheetId, sheetId } = props;
-			// const test = await apiService.getLoginHistory({
-			// 	maxResults: 45,
-			// });
-			// console.log(test);
 			const sheets = await apiService.getSheetData({
 				speadSheetId,
 				sheetId,
@@ -112,7 +107,7 @@ const GoogleAuth = (props: any) => {
 		} catch (err) {
 			console.log(err);
 			onErrorOccured(transformErrorMessage(err));
-			onSheetsDataRecieved([]);
+			onSheetsDataRecieved({ header: [], data: [] });
 			onLoadingEnd();
 		}
 	};
@@ -144,7 +139,7 @@ const GoogleAuth = (props: any) => {
 				className="my-google-button-class login"
 				onSuccess={handleLoginSuccess}
 				onFailure={handleLoginFailed}
-				scope="https://www.googleapis.com/auth/spreadsheets"
+				scope="https://www.googleapis.com/auth/admin.reports.audit.readonly https://www.googleapis.com/auth/spreadsheets"
 				isSignedIn={true}
 				buttonText="Login with Google"
 			/>
