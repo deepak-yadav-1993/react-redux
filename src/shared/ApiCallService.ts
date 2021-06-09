@@ -47,3 +47,12 @@ export default class ApiService {
 		return axios.get(`${V1_REPORTS_API}?maxResults=${maxResults}`, this.config);
 	};
 }
+
+export const restCall = async (call: any, params: any) => {
+	try {
+		const response = await call(params);
+		return [response, null];
+	} catch (err) {
+		return [null, err];
+	}
+};

@@ -66,16 +66,17 @@ class MainComponent extends React.Component<any, any> {
 		) : (
 			<React.Fragment />
 		);
-		const renderBarChart = this.props.loggedIn ? (
-			<BarChart
-				chartData={this.props.data}
-				chartHeader={this.props.header}
-				height={600}
-				width={900}
-			/>
-		) : (
-			<React.Fragment />
-		);
+		const renderBarChart =
+			!this.props.isLoading && this.props.loggedIn ? (
+				<BarChart
+					chartData={this.props.data}
+					chartHeader={this.props.header}
+					height={600}
+					width={900}
+				/>
+			) : (
+				<React.Fragment />
+			);
 
 		const { errors } = this.props;
 		const renderError =

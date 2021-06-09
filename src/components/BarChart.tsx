@@ -4,7 +4,7 @@ import { ChartProps } from "../shared/Type";
 
 const margin = { top: 30, right: 20, bottom: 30, left: 60 };
 const minimumValueOffset = 2000;
-const targetNetworth = 20000;
+const targetNetworth = 15000;
 
 const BarChart = ({ chartData, chartHeader, height, width }: ChartProps) => {
 	const d3Container = useRef(null);

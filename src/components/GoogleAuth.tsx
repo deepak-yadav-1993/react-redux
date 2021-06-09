@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { GoogleLogin } from "react-google-login";
 import { GoogleLogout } from "react-google-login";
-import APIService from "../shared/ApiCallService";
+import APIService, { restCall } from "../shared/ApiCallService";
 import { connect } from "react-redux";
 import { onSheetsDataRecieved, onErrorOccured } from "../redux/ActionCreaters";
 import { ErrorType, SheetsData } from "../shared/Type";
@@ -94,19 +94,21 @@ const GoogleAuth = (props: any) => {
 		onLogIn(userProfile);
 		const apiService = new APIService(response.accessToken);
 
-		try {
-			const { speadSheetId, sheetId } = props;
-			const sheets = await apiService.getSheetData({
-				speadSheetId,
-				sheetId,
-			});
+		const { speadSheetId, sheetId } = props;
+		const [sheets, error] = await restCall(apiService.getSheetData, {
+			speadSheetId,
+			sheetId,
+		});
+
+		if (sheets !== null) {
 			let [header, ...data] = sheets?.data?.values ?? [];
 			data = filterData({ header, data });
 			onSheetsDataRecieved({ header, data });
 			onLoadingEnd();
-		} catch (err) {
-			console.log(err);
-			onErrorOccured(transformErrorMessage(err));
+		}
+		if (error !== null) {
+			console.log(error);
+			onErrorOccured(transformErrorMessage(error));
 			onSheetsDataRecieved({ header: [], data: [] });
 			onLoadingEnd();
 		}
