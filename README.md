@@ -1,9 +1,9 @@
 # About
 
-This is a simple react web application that I develop and mentain on the side.
+This is a simple react web application that I developed and mentain on the side.
 I mostly use this app to track finances using the google sheets.
 
-This application is build using React, Redux for state management and D3 js for the data visualisation
+This application is built using React, Redux for state management and D3 js for the data visualisation
 
 ### CI/CD
 
