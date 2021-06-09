@@ -8,7 +8,7 @@ const V1_REPORTS_API = `https://www.googleapis.com/admin/reports/v1/activity/use
 // const API_KEY = `key=${ApiKey}`;
 // const baseWorksheetUrl = `https://spreadsheets.google.com/feeds/cells/key/worksheetId/private/`;
 
-export default class ApiService {
+export default class GoogleAPIService {
 	config: object;
 
 	constructor(accesToken: string) {
@@ -45,6 +45,25 @@ export default class ApiService {
 	 */
 	getLoginHistory = ({ maxResults = 25 }: { maxResults: number }) => {
 		return axios.get(`${V1_REPORTS_API}?maxResults=${maxResults}`, this.config);
+	};
+}
+
+type WeatherInput = {
+	city: string;
+	state?: string;
+	country?: string;
+};
+export class WeatherApi {
+	API_KEY: string;
+
+	constructor(apiKey: string) {
+		this.API_KEY = apiKey;
+	}
+
+	getWeather = (inputs: WeatherInput) => {
+		return axios.get(
+			`api.openweathermap.org/data/2.5/weather?q=${inputs.city},${inputs.state},${inputs.country}&appid=${this.API_KEY}`
+		);
 	};
 }
 
