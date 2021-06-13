@@ -56,13 +56,15 @@ type WeatherInput = {
 export class WeatherApi {
 	API_KEY: string;
 
-	constructor(apiKey: string) {
+	constructor(apiKey: any) {
 		this.API_KEY = apiKey;
 	}
 
 	getWeather = (inputs: WeatherInput) => {
 		return axios.get(
-			`api.openweathermap.org/data/2.5/weather?q=${inputs.city},${inputs.state},${inputs.country}&appid=${this.API_KEY}`
+			`https://api.openweathermap.org/data/2.5/weather?q=${inputs.city},${
+				inputs.state ?? ""
+			},${inputs.country ?? ""}&appid=${this.API_KEY}&units=metric`
 		);
 	};
 }
@@ -72,6 +74,7 @@ export const restCall = async (call: any, params: any) => {
 		const response = await call(params);
 		return [response, null];
 	} catch (err) {
+		console.error(`API call ERROR`, err);
 		return [null, err];
 	}
 };

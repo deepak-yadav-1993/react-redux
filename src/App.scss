@@ -2,6 +2,7 @@ $base-background-color: rgb(0, 42, 58);
 $body-font-size: 14px;
 $bold: 600;
 $color-white: white;
+$color-orange: orange;
 $base-contrast-colr: rgb(255, 106, 130);
 
 .generic-color {
@@ -49,6 +50,12 @@ $base-contrast-colr: rgb(255, 106, 130);
 }
 .MuiLinearProgress-barColorSecondary {
 	background-color: $base-background-color !important;
+}
+.MuiBottomNavigationAction-root.Mui-selected {
+	color: $color-orange !important;
+	.MuiSvgIcon-root {
+		color: $color-orange !important;
+	}
 }
 
 @keyframes rotate {

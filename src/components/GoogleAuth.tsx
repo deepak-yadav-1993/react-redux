@@ -125,11 +125,11 @@ const GoogleAuth = (props: any) => {
 		onLoadingEnd();
 	};
 
-	const _renderButton = (googleClientId: any) => {
+	const _renderButton = (clientIdGoogle: any) => {
 		return loggedIn ? (
 			<GoogleLogout
 				key="google-logout-button"
-				clientId={googleClientId}
+				clientId={clientIdGoogle}
 				className="my-google-button-class logout"
 				buttonText="Logout"
 				onLogoutSuccess={handleLogout}
@@ -137,7 +137,7 @@ const GoogleAuth = (props: any) => {
 		) : (
 			<GoogleLogin
 				key="google-login-button"
-				clientId={googleClientId}
+				clientId={clientIdGoogle}
 				className="my-google-button-class login"
 				onSuccess={handleLoginSuccess}
 				onFailure={handleLoginFailed}

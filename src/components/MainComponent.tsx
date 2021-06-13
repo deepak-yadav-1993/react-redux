@@ -1,6 +1,7 @@
 import React from "react";
 import GoogleAuthComponent from "./GoogleAuth";
 import BarChart from "./BarChart";
+import Weather from "./Weather";
 import Drawer from "@material-ui/core/Drawer";
 import {
 	BottomNavigation,
@@ -98,6 +99,7 @@ class MainComponent extends React.Component<any, any> {
 				{renderOverlay}
 				{renderError}
 				{renderBarChart}
+				<Weather />
 				<Container fixed>
 					<GoogleAuthComponent
 						loggedIn={this.props.onLoggedIn}
@@ -107,11 +109,12 @@ class MainComponent extends React.Component<any, any> {
 						onLoadingEnd={this.props.onLoadingEnd}
 					/>
 					<BottomNavigation
-						value={"test"}
+						value="finances"
 						showLabels
 						className={defaultElements.COLOR_GROUP}>
 						<BottomNavigationAction
-							label="Recents"
+							label="Finances"
+							value="finances"
 							style={{ color: defaultElements.ICON_STYLE.COLOR }}
 							icon={
 								<RestoreIcon
@@ -120,7 +123,8 @@ class MainComponent extends React.Component<any, any> {
 							}
 						/>
 						<BottomNavigationAction
-							label="Favorites"
+							label="Weather"
+							value="weather"
 							style={{ color: defaultElements.ICON_STYLE.COLOR }}
 							icon={
 								<FavoriteIcon
