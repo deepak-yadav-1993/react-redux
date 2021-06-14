@@ -9,7 +9,8 @@ const defaultState = {
 	speadSheetId: "1UhEWbuFZGbAP1UIZ0PBxE7UgoW2bjOSnlSJuBSOnemE",
 	sheetId: "Finances",
 	errors: [],
-	chartData: [10, 1],
+	chartData: [],
+	navLocation: "weather",
 };
 
 export const authStore = (state = defaultState, action) => {
@@ -41,6 +42,11 @@ export const authStore = (state = defaultState, action) => {
 				errors: state.errors.filter((error) => {
 					return error.index !== action.payload;
 				}),
+			};
+		case ActionTypes.NAVIGATION_TOGGLE:
+			return {
+				...state,
+				navLocation: action.payload,
 			};
 		default:
 			return state;

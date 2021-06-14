@@ -8,8 +8,8 @@ import {
 	BottomNavigationAction,
 	Container,
 } from "@material-ui/core";
-import FavoriteIcon from "@material-ui/icons/Favorite";
-import RestoreIcon from "@material-ui/icons/Restore";
+import MonetizationOnIcon from "@material-ui/icons/MonetizationOn";
+import WbSunnyIcon from "@material-ui/icons/WbSunny";
 import { connect } from "react-redux";
 import { LinearProgress } from "@material-ui/core";
 import ErrorComponent from "./ErrorComponent";
@@ -19,6 +19,7 @@ import {
 	onLoadingStart,
 	onLoadingEnd,
 	onErrorOccured,
+	onNavigationToggle,
 } from "../redux/ActionCreaters";
 
 const mapStateToProps = ({ appState }: any) => {
@@ -34,6 +35,8 @@ const mapDispatchToProps = (dispatch: any) => {
 		onLoadingStart: () => dispatch(onLoadingStart()),
 		onLoadingEnd: () => dispatch(onLoadingEnd()),
 		onErrorOccured: (error: any) => dispatch(onErrorOccured(error)),
+		onNavigationToggle: (navItem: string) =>
+			dispatch(onNavigationToggle(navItem)),
 	};
 };
 
@@ -48,8 +51,8 @@ const defaultElements = {
 };
 
 class MainComponent extends React.Component<any, any> {
-	render() {
-		const renderLoading = this.props.isLoading ? (
+	renderLoading = () => {
+		return this.props.isLoading ? (
 			<div className="loading-container">
 				<LinearProgress color="secondary" style={{ height: "4px" }} />
 			</div>
@@ -60,28 +63,64 @@ class MainComponent extends React.Component<any, any> {
 				}}
 			/>
 		);
-		const renderOverlay = this.props.isLoading ? (
+	};
+
+	renderOverlay = () => {
+		return this.props.isLoading ? (
 			<div className="error-container">
 				<div id="overlay" />
 			</div>
 		) : (
 			<React.Fragment />
 		);
+	};
+
+	renderError = () => {
+		const { errors } = this.props;
+		return errors.length > 0 ? <ErrorComponent /> : <React.Fragment />;
+	};
+
+	render() {
 		const renderBarChart =
-			!this.props.isLoading && this.props.loggedIn ? (
+			this.props.loggedIn && !this.props.isLoading ? (
 				<BarChart
 					chartData={this.props.data}
 					chartHeader={this.props.header}
-					height={600}
-					width={900}
+					height={550}
+					width={850}
 				/>
 			) : (
 				<React.Fragment />
 			);
 
-		const { errors } = this.props;
-		const renderError =
-			errors.length > 0 ? <ErrorComponent /> : <React.Fragment />;
+		const renderFinancesApps =
+			this.props.navLocation === "finances" ? (
+				<React.Fragment>
+					{renderBarChart}
+					<GoogleAuthComponent
+						loggedIn={this.props.onLoggedIn}
+						onLogIn={this.props.onLoginSuccess}
+						onLogout={this.props.onLogoutSuccess}
+						onLoadingStart={this.props.onLoadingStart}
+						onLoadingEnd={this.props.onLoadingEnd}
+					/>
+				</React.Fragment>
+			) : (
+				<React.Fragment />
+			);
+
+		const renderWeatherApps =
+			this.props.navLocation === "weather" ? (
+				<React.Fragment>
+					<Weather
+						loadingStart={this.props.onLoadingStart}
+						loadingEnd={this.props.onLoadingEnd}
+						errorOccured={this.props.onErrorOccured}
+					/>
+				</React.Fragment>
+			) : (
+				<React.Fragment />
+			);
 		return (
 			<div
 				className={`${defaultElements.CONTAINER_CLASS} ${defaultElements.COLOR_GROUP}`}>
@@ -95,29 +134,23 @@ class MainComponent extends React.Component<any, any> {
 						Teststing Blah blah
 					</Drawer>
 				</React.Fragment> */}
-				{renderLoading}
-				{renderOverlay}
-				{renderError}
-				{renderBarChart}
-				<Weather />
+				{this.renderLoading()}
+				{this.renderOverlay()}
+				{this.renderError()}
 				<Container fixed>
-					<GoogleAuthComponent
-						loggedIn={this.props.onLoggedIn}
-						onLogIn={this.props.onLoginSuccess}
-						onLogout={this.props.onLogoutSuccess}
-						onLoadingStart={this.props.onLoadingStart}
-						onLoadingEnd={this.props.onLoadingEnd}
-					/>
 					<BottomNavigation
-						value="finances"
 						showLabels
-						className={defaultElements.COLOR_GROUP}>
+						className={defaultElements.COLOR_GROUP}
+						value={this.props.navLocation}
+						onChange={(event: any, newValue: any) => {
+							this.props.onNavigationToggle(newValue);
+						}}>
 						<BottomNavigationAction
 							label="Finances"
 							value="finances"
 							style={{ color: defaultElements.ICON_STYLE.COLOR }}
 							icon={
-								<RestoreIcon
+								<MonetizationOnIcon
 									style={{ color: defaultElements.ICON_STYLE.COLOR }}
 								/>
 							}
@@ -127,13 +160,15 @@ class MainComponent extends React.Component<any, any> {
 							value="weather"
 							style={{ color: defaultElements.ICON_STYLE.COLOR }}
 							icon={
-								<FavoriteIcon
+								<WbSunnyIcon
 									style={{ color: defaultElements.ICON_STYLE.COLOR }}
 								/>
 							}
 						/>
 					</BottomNavigation>
 				</Container>
+				{renderFinancesApps}
+				{renderWeatherApps}
 			</div>
 		);
 	}

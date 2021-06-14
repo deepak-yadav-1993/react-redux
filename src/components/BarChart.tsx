@@ -3,19 +3,16 @@ import React, { useRef, useEffect, useState } from "react";
 import { ChartProps } from "../shared/Type";
 
 const margin = { top: 30, right: 20, bottom: 30, left: 60 };
-const minimumValueOffset = 2000;
+const minimumValueOffset = 3000;
 const targetNetworth = 15000;
 
-const BarChart = ({ chartData, chartHeader, height, width }: ChartProps) => {
+const BarChart = ({ chartData, height, width }: ChartProps) => {
 	const d3Container = useRef(null);
 	const [selection, setSelection] = useState([]);
 
-	/* The useEffect Hook is for running side effects outside of React,
-       for instance inserting elements into the DOM using D3 */
 	useEffect(() => {
 		if (chartData !== undefined && d3Container.current) {
 			const svg = d3.select(d3Container.current);
-
 			renderChart(svg);
 		}
 	}, [chartData, d3Container.current]);
@@ -56,7 +53,7 @@ const BarChart = ({ chartData, chartHeader, height, width }: ChartProps) => {
 			.text("Frequency");
 
 		const onMouseOver = function (this: any, d: any, i: any) {
-			var ref = this;
+			const ref = this;
 			setSelection(i);
 
 			d3.select(ref)
@@ -64,18 +61,10 @@ const BarChart = ({ chartData, chartHeader, height, width }: ChartProps) => {
 				.duration(200)
 				.attr("fill", "orange")
 				.attr("width", xScale.bandwidth() + 1);
-
-			d3.select(ref.parentNode)
-				.transition() // adds animation
-				.duration(200)
-				.select(".text")
-				.attr("font-size", 12)
-				.attr("font-weight", "bold")
-				.attr("transform", "translate(-7, -2)");
 		};
 
 		const onMouseOut = function (this: any, d: any, i: any) {
-			var ref = this;
+			const ref = this;
 			setSelection([]);
 
 			d3.select(ref)
@@ -83,14 +72,6 @@ const BarChart = ({ chartData, chartHeader, height, width }: ChartProps) => {
 				.duration(200)
 				.attr("width", xScale.bandwidth())
 				.attr("fill", barColor(i[9]));
-
-			d3.select(ref.parentNode)
-				.transition() // adds animation
-				.duration(200)
-				.select(".text")
-				.attr("font-size", 10)
-				.attr("font-weight", "regular")
-				.attr("transform", "translate(0,0)");
 		};
 		const barGroup = update
 			.selectAll(".bar-group")
@@ -113,6 +94,7 @@ const BarChart = ({ chartData, chartHeader, height, width }: ChartProps) => {
 			.append("text")
 			.text((d: any) => `$ ${numberStringToLocale(d[9])}`)
 			.attr("font-size", 10)
+			.attr("font-weight", "bold")
 			.attr("class", "text")
 			.attr("x", (d: any): any => xScale(d[0]))
 			.attr("y", (d: any): any => yScale(d[9]) - 8);

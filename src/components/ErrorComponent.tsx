@@ -39,10 +39,32 @@ const mapDispatchToProps = (dispatch: any) => {
 
 export default connect(mapStateToProps, mapDispatchToProps)(ErrorComponent);
 
-export const transformErrorMessage = (err: any) => {
-	return (
-		err?.response?.data?.error ?? {
-			error: { message: "Failed to fetch data", code: 520 },
-		}
-	);
+export const transformErrorMessage = (err: any): ErrorType =>
+	findMessageRecursively(err);
+
+const findMessageRecursively = (data: any): any => {
+	const type = typeof data;
+
+	switch (type) {
+		case "object":
+			if (data.hasOwnProperty("message") && data.hasOwnProperty("code")) {
+				const { message, code } = data;
+				return { message, code };
+			}
+			if (data.hasOwnProperty("message") && !data.hasOwnProperty("code")) {
+				const { message } = data;
+				return { message, code: 520 };
+			}
+
+			return Object.values(data).reduce(
+				(collection: any, next: any, idx: number) => {
+					return Object.assign(collection, findMessageRecursively(next));
+				},
+				{}
+			);
+		case "string":
+			return { message: data, code: 520 };
+		default:
+			return { message: "Failed to fetch data", code: 520 };
+	}
 };

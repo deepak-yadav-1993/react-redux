@@ -74,7 +74,7 @@ export const restCall = async (call: any, params: any) => {
 		const response = await call(params);
 		return [response, null];
 	} catch (err) {
-		console.error(`API call ERROR`, err);
+		console.error(`API call ERROR\n`, err);
 		return [null, err];
 	}
 };

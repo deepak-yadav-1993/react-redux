@@ -1,5 +1,6 @@
 import * as ActionTypes from "./ActionTypes";
 import { ErrorType } from "../shared/Type";
+import { type } from "os";
 
 export const onLoginSuccess = (userData: any) => ({
 	type: ActionTypes.USER_LOGGEDIN,
@@ -31,4 +32,9 @@ export const onErrorOccured = (error: ErrorType) => ({
 export const onErrorDismissed = (index: number) => ({
 	type: ActionTypes.ERROR_DISMISSED,
 	payload: index,
+});
+
+export const onNavigationToggle = (navItem: string) => ({
+	type: ActionTypes.NAVIGATION_TOGGLE,
+	payload: navItem,
 });

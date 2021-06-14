@@ -107,7 +107,6 @@ const GoogleAuth = (props: any) => {
 			onLoadingEnd();
 		}
 		if (error !== null) {
-			console.log(error);
 			onErrorOccured(transformErrorMessage(error));
 			onSheetsDataRecieved({ header: [], data: [] });
 			onLoadingEnd();
@@ -117,11 +116,11 @@ const GoogleAuth = (props: any) => {
 	const handleLogout = () => {
 		onLogout();
 		onLoadingEnd();
+		onSheetsDataRecieved({ header: [], data: [] });
 	};
 
-	const handleLoginFailed = ({ error: message }: any) => {
-		const errMsg = { message };
-		onErrorOccured(errMsg);
+	const handleLoginFailed = (error: any) => {
+		onErrorOccured(transformErrorMessage(error));
 		onLoadingEnd();
 	};
 
