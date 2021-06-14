@@ -12,7 +12,7 @@ export const ErrorComponent = (props: any) => {
 				return (
 					<Alert
 						severity="error"
-						key={item.index}
+						key={JSON.stringify(item)}
 						onClick={() => {
 							props.errorDismissed(item.index);
 						}}

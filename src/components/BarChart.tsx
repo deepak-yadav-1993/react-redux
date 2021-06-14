@@ -103,11 +103,11 @@ const BarChart = ({ chartData, height, width }: ChartProps) => {
 		update.exit().remove();
 	};
 
-	const numberStringToLocale = (num: string) => {
+	const numberStringToLocale = (num: string): string => {
 		return parseFloat(num).toLocaleString();
 	};
 
-	const barColor = (value: string) =>
+	const barColor = (value: string): string =>
 		parseFloat(value) > targetNetworth
 			? "rgb(0, 42, 58)"
 			: "rgba(220,20,60,.75)";

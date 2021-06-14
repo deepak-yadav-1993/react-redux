@@ -3,6 +3,7 @@ import GoogleAuthComponent from "./GoogleAuth";
 import BarChart from "./BarChart";
 import Weather from "./Weather";
 import Drawer from "@material-ui/core/Drawer";
+import Grid from "@material-ui/core/Grid";
 import {
 	BottomNavigation,
 	BottomNavigationAction,
@@ -59,7 +60,7 @@ class MainComponent extends React.Component<any, any> {
 		) : (
 			<div
 				style={{
-					height: "1vh",
+					height: "2vh",
 				}}
 			/>
 		);
@@ -167,8 +168,14 @@ class MainComponent extends React.Component<any, any> {
 						/>
 					</BottomNavigation>
 				</Container>
-				{renderFinancesApps}
-				{renderWeatherApps}
+				<Grid container spacing={0}>
+					<Grid item xs={12}>
+						{renderFinancesApps}
+					</Grid>
+					<Grid item xs={12}>
+						{renderWeatherApps}
+					</Grid>
+				</Grid>
 			</div>
 		);
 	}

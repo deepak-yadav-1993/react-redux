@@ -1,6 +1,8 @@
 import React, { useState, useEffect, useRef } from "react";
 import { WeatherApi, restCall } from "../shared/ApiCallService";
 import { transformErrorMessage } from "./ErrorComponent";
+import TextField from "@material-ui/core/TextField";
+import Button from "@material-ui/core/Button";
 
 const ICONS = {
 	CLEAR_DAY: "clear-day.svg",
@@ -60,11 +62,13 @@ const WeatherApp = (props: any) => {
 				([key, value]) => key === firstResponse?.main.toUpperCase()
 			)?.[0] ?? ["DEFAULT", "clear-day.svg"]; // Providing fallback value
 			return (
-				<img
-					src={`${process.env.PUBLIC_URL}/weatherIcons/${icon}`}
-					width={175}
-					height={175}
-				/>
+				<div>
+					<img
+						src={`${process.env.PUBLIC_URL}/weatherIcons/${icon}`}
+						width={175}
+						height={175}
+					/>
+				</div>
 			);
 		}
 	};
@@ -72,18 +76,27 @@ const WeatherApp = (props: any) => {
 	return (
 		<div style={{ color: "white" }}>
 			<React.Fragment>
-				<input
-					id="autocomplete"
-					value={input}
-					type="text"
-					placeholder="City"
-					title="city"
-					onChange={handleInputChnage}
-					onKeyPress={handleKeyPress}
-				/>
-				<input type="submit" value="Find" onClick={handleSubmitClick} />
+				<div>
+					<TextField
+						value={input}
+						id="standard-search"
+						label="City"
+						type="search"
+						className={"customInput"}
+						onChange={handleInputChnage}
+						onKeyPress={handleKeyPress}
+					/>
+				</div>
+				<div>
+					<Button
+						style={{ marginTop: "3vh" }}
+						variant="outlined"
+						onClick={handleSubmitClick}
+						className={"customButton"}>
+						Search
+					</Button>
+				</div>
 			</React.Fragment>
-
 			{renderWeather()}
 		</div>
 	);

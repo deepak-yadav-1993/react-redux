@@ -3,13 +3,14 @@ $body-font-size: 14px;
 $bold: 600;
 $color-white: white;
 $color-orange: orange;
-$base-contrast-colr: rgb(255, 106, 130);
+$base-contrast-colr: rgba(220, 20, 60, 0.75);
 
 .generic-color {
 	text-align: center;
 	background-color: $base-background-color !important;
 }
-.my-google-button-class {
+.my-google-button-class,
+.customButton {
 	border: 1px solid $color-white !important;
 	border-radius: 1px !important;
 	background-color: $base-background-color !important;
@@ -19,6 +20,28 @@ $base-contrast-colr: rgb(255, 106, 130);
 	span {
 		font-weight: $bold !important;
 		color: $color-white !important;
+	}
+}
+.MuiTextField-root.customInput {
+	label,
+	.MuiInputBase-root {
+		color: $color-white;
+	}
+	.MuiInput-underline:before {
+		border-bottom: 1px solid $color-white;
+	}
+	.MuiInput-underline:after {
+		border-bottom: 2px solid $color-white;
+	}
+	.MuiInputBase-root:hover {
+		border: none !important;
+	}
+	label.Mui-focused,
+	.MuiInputBase-root.Mui-focused {
+		color: $color-orange;
+	}
+	.MuiInput-underline.Mui-focused:after {
+		border-bottom: 2px solid $color-orange;
 	}
 }
 
