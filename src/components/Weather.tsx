@@ -3,6 +3,7 @@ import { WeatherApi, restCall } from "../shared/ApiCallService";
 import { transformErrorMessage } from "./ErrorComponent";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
+import { firstCharacterToUpperCase } from "../shared/Utils";
 
 const ICONS = {
 	CLEAR_DAY: "clear-day.svg",
@@ -35,7 +36,7 @@ const WeatherApp = (props: any) => {
 				city: input,
 			});
 			if (res) {
-				console.log(res.data);
+				// console.log(res.data);
 				setWeatherData(res.data);
 				loadingEnd();
 			} else {
@@ -58,6 +59,7 @@ const WeatherApp = (props: any) => {
 	const renderWeather = () => {
 		if (weatherData?.weather) {
 			const firstResponse = weatherData?.weather?.[0] ?? [];
+			// console.log(weatherData);
 			const [key, icon] = Object.entries(ICONS).filter(
 				([key, value]) => key === firstResponse?.main.toUpperCase()
 			)?.[0] ?? ["DEFAULT", "clear-day.svg"]; // Providing fallback value
@@ -70,6 +72,30 @@ const WeatherApp = (props: any) => {
 					/>
 				</div>
 			);
+		}
+	};
+	const transformWeatherData = (data: {}) => {
+		return Object.entries(data).map(([key, value]) => {
+			const updatedKey = key.replace("_", " ");
+			return [firstCharacterToUpperCase(updatedKey), value];
+		});
+	};
+
+	const renderWeatherInfo = () => {
+		if (weatherData?.main && weatherData?.weather) {
+			const data = transformWeatherData(weatherData?.main);
+			const { main: weatherString, description } =
+				weatherData?.weather?.[0] ?? [];
+			return (
+				<div className="weather-info">
+					<p>{`Summary: ${weatherString} (${description}) `}</p>
+					{data.map(([infoKey, value]) => (
+						<p key={`${infoKey}-${value}`}>{`${infoKey} -> ${value}`}</p>
+					))}
+				</div>
+			);
+		} else {
+			return <React.Fragment />;
 		}
 	};
 
@@ -98,6 +124,7 @@ const WeatherApp = (props: any) => {
 				</div>
 			</React.Fragment>
 			{renderWeather()}
+			{renderWeatherInfo()}
 		</div>
 	);
 };
