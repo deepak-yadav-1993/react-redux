@@ -88,7 +88,7 @@ const WeatherApp = (props: any) => {
 				weatherData?.weather?.[0] ?? [];
 			return (
 				<div className="weather-info">
-					<p>{`Summary: ${weatherString} (${description}) `}</p>
+					<p>{`Summary for ${weatherData?.name}: ${weatherString} (${description}) `}</p>
 					{data.map(([infoKey, value]) => (
 						<p key={`${infoKey}-${value}`}>{`${infoKey} -> ${value}`}</p>
 					))}
@@ -105,6 +105,7 @@ const WeatherApp = (props: any) => {
 				<div>
 					<TextField
 						value={input}
+						autoComplete="off"
 						id="standard-search"
 						label="City"
 						type="search"

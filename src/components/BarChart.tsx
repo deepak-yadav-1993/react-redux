@@ -52,9 +52,9 @@ const BarChart = ({ chartData, height, width }: ChartProps) => {
 			.style("text-anchor", "end")
 			.text("Frequency");
 
-		const onMouseOver = function (this: any, d: any, i: any) {
+		const onMouseOver = function (this: any, event: any, selectionData: any) {
 			const ref = this;
-			setSelection(i);
+			setSelection(selectionData);
 
 			d3.select(ref)
 				.transition() // adds animation
@@ -63,7 +63,7 @@ const BarChart = ({ chartData, height, width }: ChartProps) => {
 				.attr("width", xScale.bandwidth() + 1);
 		};
 
-		const onMouseOut = function (this: any, d: any, i: any) {
+		const onMouseOut = function (this: any, event: any, selectionData: any) {
 			const ref = this;
 			setSelection([]);
 
@@ -71,7 +71,7 @@ const BarChart = ({ chartData, height, width }: ChartProps) => {
 				.transition() // adds animation
 				.duration(200)
 				.attr("width", xScale.bandwidth())
-				.attr("fill", barColor(i[9]));
+				.attr("fill", barColor(selectionData[9]));
 		};
 		const barGroup = update
 			.selectAll(".bar-group")
@@ -125,7 +125,7 @@ const BarChart = ({ chartData, height, width }: ChartProps) => {
 					fill="rgb(0, 42, 58)">
 					Target Net Worth: ${targetNetworth.toLocaleString()}
 				</text>
-				{selection.length > 0 ? (
+				{selection?.length > 0 ? (
 					<text
 						x={textX}
 						y={textY}
