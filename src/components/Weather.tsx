@@ -90,7 +90,7 @@ const WeatherApp = (props: any) => {
 				<div className="weather-info">
 					<p>{`Summary for ${weatherData?.name}: ${weatherString} (${description}) `}</p>
 					{data.map(([infoKey, value]) => (
-						<p key={`${infoKey}-${value}`}>{`${infoKey} -> ${value}`}</p>
+						<p key={`${infoKey}-${value}`}>{`${infoKey} : ${value}`}</p>
 					))}
 				</div>
 			);

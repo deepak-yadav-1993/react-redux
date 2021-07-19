@@ -11,6 +11,7 @@ import {
 } from "@material-ui/core";
 import MonetizationOnIcon from "@material-ui/icons/MonetizationOn";
 import WbSunnyIcon from "@material-ui/icons/WbSunny";
+import SettingsIcon from "@material-ui/icons/Settings";
 import { connect } from "react-redux";
 import { LinearProgress } from "@material-ui/core";
 import ErrorComponent from "./ErrorComponent";
@@ -162,6 +163,16 @@ class MainComponent extends React.Component<any, any> {
 							style={{ color: defaultElements.ICON_STYLE.COLOR }}
 							icon={
 								<WbSunnyIcon
+									style={{ color: defaultElements.ICON_STYLE.COLOR }}
+								/>
+							}
+						/>
+						<BottomNavigationAction
+							label="Setup"
+							value="setup"
+							style={{ color: defaultElements.ICON_STYLE.COLOR }}
+							icon={
+								<SettingsIcon
 									style={{ color: defaultElements.ICON_STYLE.COLOR }}
 								/>
 							}
