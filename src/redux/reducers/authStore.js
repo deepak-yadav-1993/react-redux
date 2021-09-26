@@ -7,7 +7,7 @@ const defaultState = {
 	header: [],
 	data: [],
 	speadSheetId: "1UhEWbuFZGbAP1UIZ0PBxE7UgoW2bjOSnlSJuBSOnemE",
-	sheetId: "Finances",
+	sheetId: "SideHustleTestData",
 	errors: [],
 	chartData: [],
 	navLocation: "weather",

@@ -4,7 +4,7 @@ import { ChartProps } from "../shared/Type";
 
 const margin = { top: 30, right: 20, bottom: 30, left: 60 };
 const minimumValueOffset = 3000;
-const targetNetworth = 15000;
+const targetNetIncome = 5000;
 
 const BarChart = ({ chartData, height, width }: ChartProps) => {
 	const d3Container = useRef(null);
@@ -108,7 +108,7 @@ const BarChart = ({ chartData, height, width }: ChartProps) => {
 	};
 
 	const barColor = (value: string): string =>
-		parseFloat(value) > targetNetworth
+		parseFloat(value) > targetNetIncome
 			? "rgb(0, 42, 58)"
 			: "rgba(220,20,60,.75)";
 
@@ -123,7 +123,7 @@ const BarChart = ({ chartData, height, width }: ChartProps) => {
 					fontWeight="bold"
 					fontSize="14px"
 					fill="rgb(0, 42, 58)">
-					Target Net Worth: ${targetNetworth.toLocaleString()}
+					Target Net Income: ${targetNetIncome.toLocaleString()}
 				</text>
 				{selection?.length > 0 ? (
 					<text
@@ -132,7 +132,7 @@ const BarChart = ({ chartData, height, width }: ChartProps) => {
 						fontWeight="bold"
 						fontSize="14px"
 						fill={barColor(selection[9])}>
-						Net Worth for {selection[0]} was $
+						Net Income for {selection[0]} was $
 						{numberStringToLocale(selection[9])}
 					</text>
 				) : (
