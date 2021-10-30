@@ -1,4 +1,4 @@
-import * as ActionTypes from "../ActionTypes";
+import * as ActionTypes from "../ActionTypes.ts";
 
 const defaultState = {
 	loggedIn: false,
@@ -13,7 +13,7 @@ const defaultState = {
 	navLocation: "weather",
 };
 
-export const authStore = (state = defaultState, action) => {
+const authStore = (state = defaultState, action) => {
 	switch (action.type) {
 		case ActionTypes.USER_LOGGEDIN:
 			return { ...state, loggedIn: true, userData: action.payload };
@@ -30,7 +30,7 @@ export const authStore = (state = defaultState, action) => {
 				data: state.header.concat(action.payload.data),
 			};
 		case ActionTypes.ERROR_OCCURED: {
-			const index = state.errors.length++;
+			const index = state.errors.length + 1;
 			return {
 				...state,
 				errors: state.errors.concat({ ...action.payload, index }),
@@ -52,3 +52,5 @@ export const authStore = (state = defaultState, action) => {
 			return state;
 	}
 };
+
+export default authStore;

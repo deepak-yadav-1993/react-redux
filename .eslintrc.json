@@ -3,7 +3,13 @@
 		"browser": true,
 		"es2021": true
 	},
-	"extends": ["airbnb", "airbnb/hooks", "prettier"],
+	"extends": [
+		"airbnb",
+		"airbnb/hooks",
+		"prettier",
+		"plugin:prettier/recommended"
+	],
+	"plugins": ["prettier"],
 	"parserOptions": {
 		"ecmaFeatures": {
 			"jsx": true
@@ -11,7 +17,7 @@
 		"ecmaVersion": 12,
 		"sourceType": "module"
 	},
-	"plugins": ["prettier"],
+
 	"rules": {
 		// Allow Prettier to throw errors via ESLint
 		"prettier/prettier": "error"
