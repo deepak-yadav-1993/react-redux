@@ -5,7 +5,7 @@ import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 import { firstCharacterToUpperCase } from "../shared/Utils";
 
-const ICONS = {
+const ICONS = Object.freeze({
 	CLEAR_DAY: "clear-day.svg",
 	CLEAR_NIGHT: "clear-night.svg",
 	CLOUDS: "cloudy.svg",
@@ -16,7 +16,7 @@ const ICONS = {
 	SNOW: "snow.svg",
 	THUNDERSTORM: "thunderstorms.svg",
 	TORNADO: "tornado.svg",
-};
+});
 
 const WEATHER_API_KEY = process.env.REACT_APP_WEATHER_API_KEY;
 
@@ -46,7 +46,7 @@ const WeatherApp = (props: any) => {
 		}
 	};
 
-	const handleInputChnage = (e: any) => {
+	const handleInputChange = (e: any) => {
 		setInput(e.target.value);
 		e.stopPropagation();
 	};
@@ -110,7 +110,7 @@ const WeatherApp = (props: any) => {
 						label="City"
 						type="search"
 						className={"customInput"}
-						onChange={handleInputChnage}
+						onChange={handleInputChange}
 						onKeyPress={handleKeyPress}
 					/>
 				</div>
