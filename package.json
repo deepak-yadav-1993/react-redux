@@ -34,7 +34,7 @@
     "eject": "react-scripts eject",
     "publishImage": "./scripts/build.sh",
     "lint": "eslint --fix ./src",
-    "prettier-format": "prettier --config .prettierrc.json '.src/*' --write"
+    "prettier-format": "prettier --config .prettierrc.json './src/*.ts' './src/*.css' './src/*.scss' --write"
   },
   "eslintConfig": {
     "extends": "react-app"
