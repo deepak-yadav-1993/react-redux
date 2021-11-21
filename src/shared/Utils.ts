@@ -4,5 +4,5 @@
  * @returns
  */
 export const firstCharacterToUpperCase = (data: string): string => {
-	return `${data[0].toUpperCase()}${data.slice(1)}`;
+  return `${data[0].toUpperCase()}${data.slice(1)}`;
 };

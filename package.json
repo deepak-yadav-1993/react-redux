@@ -34,8 +34,9 @@
     "eject": "react-scripts eject",
     "publishImage": "./scripts/build.sh",
     "lint": "eslint --fix ./src",
-    "prettier-format-code": "prettier  --write --config .prettierrc.json './src/*.{ts,tsx,js}'",
-    "prettier-format-css": "prettier  --write --config .prettierrc.json './src/*.{css,scss}'"
+    "prettier-format-code": "prettier  --write --config .prettierrc.json './src/**/*.{ts,tsx,js}'",
+    "prettier-format-css": "prettier  --write --config .prettierrc.json './src/**/*.{css,scss}'",
+    "prepare": "husky install"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -57,6 +58,7 @@
     "@typescript-eslint/eslint-plugin": "^5.4.0",
     "@typescript-eslint/parser": "^5.4.0",
     "eslint": "^7.11.0",
+    "husky": "^7.0.4",
     "prettier": "^2.4.1"
   }
 }
