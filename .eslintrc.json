@@ -1,16 +1,14 @@
 {
-	"root": true,
-	"globals": {
-		"window": true,
-		"document": true
-	},
-	"parser": "@typescript-eslint/parser",
-	"plugins": [
-	  "@typescript-eslint"
-	],
-	"extends": [
-	  "eslint:recommended",
-	  "plugin:@typescript-eslint/eslint-recommended",
-	  "plugin:@typescript-eslint/recommended"
-	]
+  "root": true,
+  "globals": {
+    "window": true,
+    "document": true
+  },
+  "parser": "@typescript-eslint/parser",
+  "plugins": ["@typescript-eslint"],
+  "extends": [
+    "eslint:recommended",
+    "plugin:@typescript-eslint/eslint-recommended",
+    "plugin:@typescript-eslint/recommended"
+  ]
 }

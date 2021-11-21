@@ -1,0 +1,8 @@
+{
+  "cSpell.words": ["LOGGEDIN", "LOGGEDOUT"],
+  "cSpell.language": "en,en-GB,en-US",
+  // Default (format when you paste)
+  "editor.formatOnPaste": true,
+  // Default (format when you save)
+  "editor.formatOnSave": true
+}
