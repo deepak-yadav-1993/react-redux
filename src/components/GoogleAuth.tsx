@@ -1,6 +1,5 @@
 import React, { useEffect } from 'react';
-import { GoogleLogin } from 'react-google-login';
-import { GoogleLogout } from 'react-google-login';
+import { GoogleLogin, GoogleLogout } from 'react-google-login';
 import APIService, { restCall } from '../shared/ApiCallService';
 import { connect } from 'react-redux';
 import { onSheetsDataRecieved, onErrorOccured } from '../redux/ActionCreaters';
@@ -126,24 +125,28 @@ const GoogleAuth = (props: any) => {
 
   const _renderButton = (clientIdGoogle: any) => {
     return loggedIn ? (
-      <GoogleLogout
-        key="google-logout-button"
-        clientId={clientIdGoogle}
-        className="my-google-button-class logout"
-        buttonText="Logout"
-        onLogoutSuccess={handleLogout}
-      />
+      <>
+        <GoogleLogout
+          key="google-logout-button"
+          clientId={clientIdGoogle}
+          className="my-google-button-class logout"
+          buttonText="Logout"
+          onLogoutSuccess={handleLogout}
+        />
+      </>
     ) : (
-      <GoogleLogin
-        key="google-login-button"
-        clientId={clientIdGoogle}
-        className="my-google-button-class login"
-        onSuccess={handleLoginSuccess}
-        onFailure={handleLoginFailed}
-        scope="https://www.googleapis.com/auth/admin.reports.audit.readonly https://www.googleapis.com/auth/spreadsheets"
-        isSignedIn={true}
-        buttonText="Login with Google"
-      />
+      <>
+        <GoogleLogin
+          key="google-login-button"
+          clientId={clientIdGoogle}
+          className="my-google-button-class login"
+          onSuccess={handleLoginSuccess}
+          onFailure={handleLoginFailed}
+          scope="https://www.googleapis.com/auth/admin.reports.audit.readonly https://www.googleapis.com/auth/spreadsheets"
+          isSignedIn={true}
+          buttonText="Login with Google"
+        />
+      </>
     );
   };
   return <div className={containerClass}>{_renderButton(googleClientId)}</div>;
