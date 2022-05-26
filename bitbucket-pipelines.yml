@@ -13,6 +13,7 @@ pipelines:
           - node
         script: # Modify the commands below to build your repository.
           - unset CI
+          - yarn set version berry
           - yarn install
           - yarn build
           - export FRONTEND=deepaky193/personal_finance_app:latest
