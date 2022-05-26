@@ -3,7 +3,7 @@
 # Only use spaces to indent your .yml configuration.
 # -----
 # You can specify a custom docker image from Docker Hub as your build environment.
-image: node:14.16
+image: node:16.15
 
 pipelines:
   default:
@@ -13,11 +13,11 @@ pipelines:
           - node
         script: # Modify the commands below to build your repository.
           - unset CI
-          - npm clean-install
-          - npm run build
+          - yarn install
+          - yarn build
           - export FRONTEND=deepaky193/personal_finance_app:latest
           - docker login --username $DOCKER_USERID --password $DOCKER_PASSWORD
-          - npm run publishImage
+          - yarn publishImage
         condition:
           changesets:
             includePaths:
@@ -25,6 +25,7 @@ pipelines:
               - "package*.json"
               - "Dockerfile"
               - "nginx.conf"
+              - "bitbucket-pipelines.yml"
     - step:
         name: Build Backend
         script:
