@@ -6,7 +6,7 @@ I mostly use this app to track expenses using the google sheets.
 This application is built using React, Redux for state management and D3 js for the data visualisation
 
 ### Link
-Hosted on [vercel](https://react-redux-psi.vercel.app/)
+Hosted on [vercel](https://react-redux-deepak-yadav.vercel.app/)
 
 ### CI/CD
 
