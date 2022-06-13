@@ -7,3 +7,4 @@ dist
 build
 node_modules
 Server/.env
+.yarn/cache
