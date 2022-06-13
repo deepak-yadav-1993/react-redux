@@ -1,129 +1,73 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useCallback } from 'react';
 import { GoogleLogin, GoogleLogout } from 'react-google-login';
-import APIService, { restCall } from '../shared/ApiCallService';
-import { connect } from 'react-redux';
-import { onSheetsDataRecieved, onErrorOccured } from '../redux/ActionCreaters';
-import { ErrorType, SheetsData } from '../shared/Type';
 import { transformErrorMessage } from './ErrorComponent';
+import {
+  selectIsloggedIn,
+  userDataReceived,
+  userInfoEndLoading,
+  userInfoLoading,
+  userLoggedOut
+} from '../redux/reducers/userSlice';
+import { useDispatch } from 'react-redux';
+import {
+  getSheetData,
+  selectFileId,
+  selectSheetGID
+} from '../redux/reducers/sheetDataSlice';
+import { useSelector } from 'react-redux';
+import { errorOcurred } from '../redux/reducers/errorSlice';
 
 const containerClass = 'component google-auth';
 
-// using react-env for local developemnt but setting environment variable when publishing docker image
+// using react-env for local development but setting environment variable when publishing docker image
 const googleClientId = process.env.REACT_APP_GOOGLE_CLIENT_ID;
 
-const mapStateToProps = (state: any) => {
-  const { sheetData, speadSheetId, sheetId, loggedIn } = state.appState;
-  return {
-    sheetData,
-    speadSheetId,
-    sheetId,
-    loggedIn
-  };
-};
-
-const mapDispatchToProps = (dispatch: any) => {
-  return {
-    onSheetsDataRecieved: (sheetData: SheetsData) =>
-      dispatch(onSheetsDataRecieved(sheetData)),
-    onErrorOccured: (error: ErrorType) => dispatch(onErrorOccured(error))
-  };
-};
-const emptyRecord = (element: string) => element === '';
-/**
- * This function filters out the rows that do not have values for the
- * headers
- *
- * @param header [string]: An array of headers
- * @param data [string]: An array of data values
- */
-const filterData = ({ header, data }: SheetsData) => {
-  const transformedData = data.map((row: any) => {
-    return row.map((item: any) => {
-      const record = item.replace('$', '');
-      return record.replace(',', '');
-    });
-  });
-
-  const result = transformedData.filter(
-    (row: any) => row.length === header.length && !row.some(emptyRecord)
-  );
-
-  // Send record of last 12 months year
-  return result.length > 12
-    ? result.slice(result.length - 12, result.length)
-    : result;
-};
-
-const GoogleAuth = (props: any) => {
-  // Reserved for hooks
+const GoogleAuth = () => {
   useEffect(() => {
-    // Update the document title using the browser API
     window.addEventListener('click', onClickHandler);
     return () => {
-      // Cleanup
       window.removeEventListener('click', onClickHandler);
     };
   });
+  const dispatch = useDispatch();
 
-  const {
-    loggedIn,
-    onLogIn,
-    onLogout,
-    onLoadingStart,
-    onLoadingEnd,
-    onErrorOccured,
-    onSheetsDataRecieved
-  } = props;
-
-  const onClickHandler = (e: any) => {
-    const buttonElement = document.querySelector('.my-google-button-class');
-    if (buttonElement?.contains(e.target)) {
-      onLoadingStart();
-      e.stopPropagation();
+  const onClickHandler = (event: any) => {
+    const buttonElement = document.querySelector(
+      '.my-google-button-class logout'
+    ) as unknown as any;
+    const { target } = event;
+    if (buttonElement?.contains(target)) {
+      dispatch(userLoggedOut());
+      event.stopPropagation();
     }
   };
 
-  const handleLoginSuccess = async (response: any) => {
-    const userProfile = {
-      name: response.profileObj.name,
-      email: response.profileObj.email,
-      imageUrl: response.profileObj.imageUrl,
-      googleId: response.profileObj.googleId
-    };
-    onLogIn(userProfile);
-    const apiService = new APIService(response.accessToken);
+  const groupId = useSelector(selectSheetGID);
+  const fileId = useSelector(selectFileId);
+  const loggedIn = useSelector(selectIsloggedIn);
 
-    const { speadSheetId, sheetId } = props;
-    const [sheets, error] = await restCall(apiService.getSheetData, {
-      speadSheetId,
-      sheetId
-    });
-
-    if (sheets !== null) {
-      const [header, ...data] = sheets?.data?.values ?? [];
-      const changedData = filterData({ header, data });
-      onSheetsDataRecieved({ header, data: changedData });
-      onLoadingEnd();
-    }
-    if (error !== null) {
-      onErrorOccured(transformErrorMessage(error));
-      onSheetsDataRecieved({ header: [], data: [] });
-      onLoadingEnd();
-    }
-  };
+  const handleLoginSuccess = useCallback(
+    (response: any) => {
+      const { accessToken } = response;
+      const { name, email, imageUrl, googleId } = response?.profileObj;
+      dispatch(
+        userDataReceived({ name, email, imageUrl, googleId, accessToken })
+      );
+      dispatch(getSheetData({ groupId, fileId }));
+    },
+    [groupId, fileId]
+  );
 
   const handleLogout = () => {
-    onLogout();
-    onLoadingEnd();
-    onSheetsDataRecieved({ header: [], data: [] });
+    dispatch(userLoggedOut());
   };
 
   const handleLoginFailed = (error: any) => {
-    onErrorOccured(transformErrorMessage(error));
-    onLoadingEnd();
+    dispatch(errorOcurred(transformErrorMessage(error)?.message));
+    dispatch(userInfoEndLoading());
   };
 
-  const _renderButton = (clientIdGoogle: any) => {
+  const _renderButton = (clientIdGoogle: string) => {
     return loggedIn ? (
       <>
         <GoogleLogout
@@ -140,6 +84,7 @@ const GoogleAuth = (props: any) => {
           key="google-login-button"
           clientId={clientIdGoogle}
           className="my-google-button-class login"
+          onRequest={() => dispatch(userInfoLoading())}
           onSuccess={handleLoginSuccess}
           onFailure={handleLoginFailed}
           scope="https://www.googleapis.com/auth/admin.reports.audit.readonly https://www.googleapis.com/auth/spreadsheets"
@@ -149,7 +94,13 @@ const GoogleAuth = (props: any) => {
       </>
     );
   };
-  return <div className={containerClass}>{_renderButton(googleClientId)}</div>;
+  return (
+    <>
+      {googleClientId && (
+        <div className={containerClass}>{_renderButton(googleClientId)}</div>
+      )}
+    </>
+  );
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(GoogleAuth);
+export default GoogleAuth;

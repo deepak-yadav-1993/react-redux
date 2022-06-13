@@ -1,44 +1,34 @@
 import React from 'react';
-import { connect } from 'react-redux';
-import { onErrorDismissed } from '../redux/ActionCreaters';
-import { ErrorType } from '../shared/Type';
 import { Alert } from '@material-ui/lab';
 import { Container } from '@material-ui/core';
+import { useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
+import { errorDismissed, selectErrors } from '../redux/reducers/errorSlice';
+import { ErrorType } from '../shared/Type';
 
-export const ErrorComponent = (props: any) => {
+export const ErrorComponent = () => {
+  const dispatch = useDispatch();
+  const errors: [string, string][] = useSelector(selectErrors);
+
   return (
     <Container fixed>
-      {props.errors.map((item: ErrorType) => {
-        return (
-          <Alert
-            severity="error"
-            key={JSON.stringify(item)}
-            onClick={() => {
-              props.errorDismissed(item.index);
-            }}
-            style={{
-              margin: '3px'
-            }}
-          >
-            {item.message}
-          </Alert>
-        );
-      })}
+      {errors.map(([key, item]: string[]) => (
+        <Alert
+          severity="error"
+          key={key}
+          onClick={() => {
+            dispatch(errorDismissed(key));
+          }}
+          style={{
+            margin: '3px'
+          }}
+        >
+          {item}
+        </Alert>
+      ))}
     </Container>
   );
 };
-
-const mapStateToProps = (state: any) => ({
-  errors: state.appState.errors
-});
-
-const mapDispatchToProps = (dispatch: any) => {
-  return {
-    errorDismissed: (error: number) => dispatch(onErrorDismissed(error))
-  };
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(ErrorComponent);
 
 export const transformErrorMessage = (err: any): ErrorType =>
   findMessageRecursively(err);
@@ -75,3 +65,5 @@ const findMessageRecursively = (data: any): any => {
       return { message: 'Failed to fetch data', code: 520 };
   }
 };
+
+export default ErrorComponent;

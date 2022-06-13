@@ -1,9 +1,11 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { ChangeEvent, useState, KeyboardEvent } from 'react';
 import { WeatherApi, restCall } from '../shared/ApiCallService';
 import { transformErrorMessage } from './ErrorComponent';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import { firstCharacterToUpperCase } from '../shared/Utils';
+import { errorOcurred } from '../redux/reducers/errorSlice';
+import { useDispatch } from 'react-redux';
 
 const ICONS = Object.freeze({
   CLEAR_DAY: 'clear-day.svg',
@@ -20,38 +22,33 @@ const ICONS = Object.freeze({
 
 const WEATHER_API_KEY = process.env.REACT_APP_WEATHER_API_KEY;
 
-const WeatherApp = (props: any) => {
+const WeatherApp = () => {
   const [input, setInput] = useState('');
   const [weatherData, setWeatherData] = useState<any>({});
   const [newEntry, setNewEntry] = useState('');
+  const dispatch = useDispatch();
   const weatherApi = new WeatherApi(WEATHER_API_KEY);
-
-  const { loadingStart, loadingEnd, errorOccured } = props;
 
   const handleSubmitClick = async () => {
     setNewEntry(input.toLocaleLowerCase());
+    const weatherFnCall = () => weatherApi.getWeather({ city: input });
     if (input.toLocaleLowerCase() !== newEntry) {
-      loadingStart();
-      const [res, err] = await restCall(weatherApi.getWeather, {
-        city: input
-      });
+      const [res, err] = (await restCall(weatherFnCall)) as unknown as any;
       if (res) {
         // console.log(res.data);
         setWeatherData(res.data);
-        loadingEnd();
       } else {
-        errorOccured(transformErrorMessage(err));
-        loadingEnd();
+        dispatch(errorOcurred(transformErrorMessage(err)?.message));
       }
     }
   };
 
-  const handleInputChange = (e: any) => {
+  const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
     setInput(e.target.value);
     e.stopPropagation();
   };
 
-  const handleKeyPress = (e: any) => {
+  const handleKeyPress = (e: KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'Enter' || e.keyCode === 13) handleSubmitClick();
     e.stopPropagation();
   };
@@ -61,7 +58,7 @@ const WeatherApp = (props: any) => {
       const firstResponse = weatherData?.weather?.[0] ?? [];
       // console.log(weatherData);
       const [, icon] = Object.entries(ICONS).filter(
-        ([key, value]) => key === firstResponse?.main.toUpperCase()
+        ([key, _value]) => key === firstResponse?.main.toUpperCase()
       )?.[0] ?? ['DEFAULT', 'clear-day.svg']; // Providing fallback value
       return (
         <div>
@@ -95,13 +92,13 @@ const WeatherApp = (props: any) => {
         </div>
       );
     } else {
-      return <React.Fragment />;
+      return null;
     }
   };
 
   return (
     <div style={{ color: 'white' }}>
-      <React.Fragment>
+      <>
         <div>
           <TextField
             value={input}
@@ -124,7 +121,7 @@ const WeatherApp = (props: any) => {
             Search
           </Button>
         </div>
-      </React.Fragment>
+      </>
       {renderWeather()}
       {renderWeatherInfo()}
     </div>

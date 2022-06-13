@@ -2,7 +2,6 @@ import React from 'react';
 import GoogleAuthComponent from './GoogleAuth';
 import BarChart from './BarChart';
 import Weather from './Weather';
-import Drawer from '@material-ui/core/Drawer';
 import Grid from '@material-ui/core/Grid';
 import {
   BottomNavigation,
@@ -12,35 +11,17 @@ import {
 import MonetizationOnIcon from '@material-ui/icons/MonetizationOn';
 import WbSunnyIcon from '@material-ui/icons/WbSunny';
 import SettingsIcon from '@material-ui/icons/Settings';
-import { connect } from 'react-redux';
 import { LinearProgress } from '@material-ui/core';
 import ErrorComponent from './ErrorComponent';
+import { useSelector } from 'react-redux';
 import {
-  onLoginSuccess,
-  onLogoutSuccess,
-  onLoadingStart,
-  onLoadingEnd,
-  onErrorOccured,
-  onNavigationToggle
-} from '../redux/ActionCreaters';
-
-const mapStateToProps = ({ appState }: any) => {
-  return {
-    ...appState
-  };
-};
-
-const mapDispatchToProps = (dispatch: any) => {
-  return {
-    onLoginSuccess: (userdata: any) => dispatch(onLoginSuccess(userdata)),
-    onLogoutSuccess: () => dispatch(onLogoutSuccess()),
-    onLoadingStart: () => dispatch(onLoadingStart()),
-    onLoadingEnd: () => dispatch(onLoadingEnd()),
-    onErrorOccured: (error: any) => dispatch(onErrorOccured(error)),
-    onNavigationToggle: (navItem: string) =>
-      dispatch(onNavigationToggle(navItem))
-  };
-};
+  selectIsloggedIn,
+  selectNavLocation,
+  selectUserLoadingState,
+  userNavClick
+} from '../redux/reducers/userSlice';
+import { useDispatch } from 'react-redux';
+import ConfigForm from './ConfigForm';
 
 const defaultElements = {
   CONTAINER_CLASS: 'component main',
@@ -52,146 +33,105 @@ const defaultElements = {
   }
 };
 
-class MainComponent extends React.Component<any, any> {
-  renderLoading = () => {
-    return this.props.isLoading ? (
-      <div className="loading-container">
-        <LinearProgress color="secondary" style={{ height: '4px' }} />
-      </div>
-    ) : (
-      <div
-        style={{
-          height: '2vh'
-        }}
-      />
-    );
-  };
+const MainComponent = () => {
+  const dispatch = useDispatch();
+  const userLoggedIn = useSelector(selectIsloggedIn);
+  const userLoading = useSelector(selectUserLoadingState);
+  const navLocation = useSelector(selectNavLocation);
+  const userInfoIsLoading = userLoading === 'loading';
+  const renderLoading = userInfoIsLoading ? (
+    <div className="loading-container">
+      <LinearProgress color="secondary" style={{ height: '4px' }} />
+    </div>
+  ) : (
+    <div
+      style={{
+        height: '2vh'
+      }}
+    />
+  );
 
-  renderOverlay = () => {
-    return this.props.isLoading ? (
-      <div className="error-container">
-        <div id="overlay" />
-      </div>
-    ) : (
-      <React.Fragment />
-    );
-  };
+  const renderOverlay = userInfoIsLoading ? (
+    <div className="error-container">
+      <div id="overlay" />
+    </div>
+  ) : null;
 
-  renderError = () => {
-    const { errors } = this.props;
-    return errors.length > 0 ? <ErrorComponent /> : <React.Fragment />;
-  };
+  const renderBarChart =
+    userLoggedIn && !userInfoIsLoading ? (
+      <BarChart height={550} width={850} />
+    ) : null;
 
-  render() {
-    const renderBarChart =
-      this.props.loggedIn && !this.props.isLoading ? (
-        <BarChart
-          chartData={this.props.data}
-          chartHeader={this.props.header}
-          height={550}
-          width={850}
-        />
-      ) : (
-        <React.Fragment />
-      );
+  const renderFinancesApps = navLocation === 'finances' && (
+    <>
+      {renderBarChart}
+      <GoogleAuthComponent />
+    </>
+  );
 
-    const renderFinancesApps =
-      this.props.navLocation === 'finances' ? (
-        <React.Fragment>
-          {renderBarChart}
-          <GoogleAuthComponent
-            loggedIn={this.props.onLoggedIn}
-            onLogIn={this.props.onLoginSuccess}
-            onLogout={this.props.onLogoutSuccess}
-            onLoadingStart={this.props.onLoadingStart}
-            onLoadingEnd={this.props.onLoadingEnd}
+  return (
+    <div
+      className={`${defaultElements.CONTAINER_CLASS} ${defaultElements.COLOR_GROUP}`}
+    >
+      {renderLoading}
+      {renderOverlay}
+      <ErrorComponent />
+      <Container fixed>
+        <BottomNavigation
+          showLabels
+          className={defaultElements.COLOR_GROUP}
+          value={navLocation}
+          onChange={(_event, newValue) => {
+            dispatch(userNavClick(newValue));
+          }}
+        >
+          <BottomNavigationAction
+            label="Finances"
+            value="finances"
+            style={{ color: defaultElements.ICON_STYLE.COLOR }}
+            icon={
+              <MonetizationOnIcon
+                style={{ color: defaultElements.ICON_STYLE.COLOR }}
+              />
+            }
           />
-        </React.Fragment>
-      ) : (
-        <React.Fragment />
-      );
-
-    const renderWeatherApps =
-      this.props.navLocation === 'weather' ? (
-        <React.Fragment>
-          <Weather
-            loadingStart={this.props.onLoadingStart}
-            loadingEnd={this.props.onLoadingEnd}
-            errorOccured={this.props.onErrorOccured}
+          <BottomNavigationAction
+            label="Weather"
+            value="weather"
+            style={{ color: defaultElements.ICON_STYLE.COLOR }}
+            icon={
+              <WbSunnyIcon
+                style={{ color: defaultElements.ICON_STYLE.COLOR }}
+              />
+            }
           />
-        </React.Fragment>
-      ) : (
-        <React.Fragment />
-      );
-    return (
-      <div
-        className={`${defaultElements.CONTAINER_CLASS} ${defaultElements.COLOR_GROUP}`}
-      >
-        {/* <React.Fragment>
-					<Drawer
-						anchor={"left"}
-						open={true}
-						onClose={() => {
-							console.log("dee");
-						}}>
-						Teststing Blah blah
-					</Drawer>
-				</React.Fragment> */}
-        {this.renderLoading()}
-        {this.renderOverlay()}
-        {this.renderError()}
-        <Container fixed>
-          <BottomNavigation
-            showLabels
-            className={defaultElements.COLOR_GROUP}
-            value={this.props.navLocation}
-            onChange={(event: any, newValue: any) => {
-              this.props.onNavigationToggle(newValue);
-            }}
-          >
-            <BottomNavigationAction
-              label="Finances"
-              value="finances"
-              style={{ color: defaultElements.ICON_STYLE.COLOR }}
-              icon={
-                <MonetizationOnIcon
-                  style={{ color: defaultElements.ICON_STYLE.COLOR }}
-                />
-              }
-            />
-            <BottomNavigationAction
-              label="Weather"
-              value="weather"
-              style={{ color: defaultElements.ICON_STYLE.COLOR }}
-              icon={
-                <WbSunnyIcon
-                  style={{ color: defaultElements.ICON_STYLE.COLOR }}
-                />
-              }
-            />
-            <BottomNavigationAction
-              label="Setup"
-              value="setup"
-              style={{ color: defaultElements.ICON_STYLE.COLOR }}
-              icon={
-                <SettingsIcon
-                  style={{ color: defaultElements.ICON_STYLE.COLOR }}
-                />
-              }
-            />
-          </BottomNavigation>
-        </Container>
-        <Grid container spacing={0}>
-          <Grid item xs={12}>
-            {renderFinancesApps}
-          </Grid>
-          <Grid item xs={12}>
-            {renderWeatherApps}
-          </Grid>
+          <BottomNavigationAction
+            label="Setup"
+            value="setup"
+            style={{ color: defaultElements.ICON_STYLE.COLOR }}
+            icon={
+              <SettingsIcon
+                style={{ color: defaultElements.ICON_STYLE.COLOR }}
+              />
+            }
+          />
+        </BottomNavigation>
+      </Container>
+      <Grid container spacing={0}>
+        <Grid item xs={12}>
+          {renderFinancesApps}
         </Grid>
-      </div>
-    );
-  }
-}
+        <Grid item xs={12}>
+          {navLocation === 'weather' && <Weather />}
+        </Grid>
+        {navLocation === 'setup' && (
+          <Grid item xs={12}>
+            <ConfigForm />
+          </Grid>
+        )}
+      </Grid>
+    </div>
+  );
+};
 
-export default connect(mapStateToProps, mapDispatchToProps)(MainComponent);
+export default MainComponent;

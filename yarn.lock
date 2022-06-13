@@ -13551,9 +13551,6 @@ __metadata:
     react-google-login: 5.2.2
     react-redux: ^7.2.0
     react-scripts: ^4.0.0
-    redux: ^4.0.5
-    redux-devtools-extension: ^2.13.8
-    redux-thunk: ^2.3.0
     sass: ^1.52.1
     typescript: ^3.7.5
     uuid: ^8.3.2
@@ -13779,16 +13776,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"redux-devtools-extension@npm:^2.13.8":
-  version: 2.13.9
-  resolution: "redux-devtools-extension@npm:2.13.9"
-  peerDependencies:
-    redux: ^3.1.0 || ^4.0.0
-  checksum: 603d48fd6acf3922ef373b251ab3fdbb990035e90284191047b29d25b06ea18122bc4ef01e0704ccae495acb27ab5e47b560937e98213605dd88299470025db9
-  languageName: node
-  linkType: hard
-
-"redux-thunk@npm:^2.3.0, redux-thunk@npm:^2.4.1":
+"redux-thunk@npm:^2.4.1":
   version: 2.4.1
   resolution: "redux-thunk@npm:2.4.1"
   peerDependencies:
@@ -13797,7 +13785,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"redux@npm:^4.0.0, redux@npm:^4.0.5, redux@npm:^4.1.2":
+"redux@npm:^4.0.0, redux@npm:^4.1.2":
   version: 4.2.0
   resolution: "redux@npm:4.2.0"
   dependencies:

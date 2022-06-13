@@ -1,14 +1,17 @@
 import * as d3 from 'd3';
 import React, { useRef, useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
+import { selectChartData } from '../redux/reducers/sheetDataSlice';
 import { ChartProps } from '../shared/Type';
 
 const margin = { top: 30, right: 20, bottom: 30, left: 60 };
-const minimumValueOffset = 3000;
+const minimumValueOffset = 1000;
 const targetNetIncome = 5000;
 
-const BarChart = ({ chartData, height, width }: ChartProps) => {
+const BarChart = ({ height, width }: ChartProps) => {
   const d3Container = useRef(null);
   const [selection, setSelection] = useState([]);
+  const chartData = useSelector(selectChartData);
 
   useEffect(() => {
     if (chartData !== undefined && d3Container.current) {
@@ -25,6 +28,8 @@ const BarChart = ({ chartData, height, width }: ChartProps) => {
     const xScale = d3.scaleBand().range([0, width]).round(true).padding(0.25);
     const yScale = d3.scaleLinear().range([height, 0]);
     const total = chartData.map((item: any) => parseFloat(item[9]));
+
+    console.log('dee', chartData, total, height, width);
 
     xScale.domain(chartData.map((item: any) => item[0]));
     yScale.domain([
@@ -139,9 +144,7 @@ const BarChart = ({ chartData, height, width }: ChartProps) => {
             Net Income for {selection[0]} was $
             {numberStringToLocale(selection[9])}
           </text>
-        ) : (
-          <React.Fragment />
-        )}
+        ) : null}
       </g>
     );
   };
@@ -151,7 +154,7 @@ const BarChart = ({ chartData, height, width }: ChartProps) => {
       className="d3-component"
       width={width + margin.left + margin.right}
       height={height + margin.top + margin.bottom}
-      style={{ backgroundColor: 'white' }}
+      style={{ backgroundColor: 'white', color: 'black' }}
       ref={d3Container}
     >
       {renderInfo()}

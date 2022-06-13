@@ -9,6 +9,9 @@ $base-contrast-colr: rgba(220, 20, 60, 0.75);
   text-align: center;
   background-color: $base-background-color !important;
 }
+.component {
+  color: $color-white;
+}
 .my-google-button-class,
 .customButton {
   border: 1px solid $color-white !important;
