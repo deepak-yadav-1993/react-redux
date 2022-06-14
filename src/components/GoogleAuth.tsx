@@ -48,8 +48,8 @@ const GoogleAuth = () => {
 
   const handleLoginSuccess = useCallback(
     (response: any) => {
-      const { accessToken } = response;
-      const { name, email, imageUrl, googleId } = response?.profileObj;
+      const { accessToken, profileObj } = response;
+      const { name, email, imageUrl, googleId } = profileObj;
       dispatch(
         userDataReceived({ name, email, imageUrl, googleId, accessToken })
       );
