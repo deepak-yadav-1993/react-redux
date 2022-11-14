@@ -33,6 +33,3 @@ jobs:
       - run: yarn install
       - run: yarn lint
       - run: yarn build
-      - run: export FRONTEND=deepaky193/personal_finance_app:latest
-      - run: docker login --username ${{ secrets.DOCKER_USERID }} --password ${{ secrets.DOCKER_PASSWORD }}
-      - run: yarn publishImage
