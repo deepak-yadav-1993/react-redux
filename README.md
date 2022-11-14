@@ -10,7 +10,7 @@ Hosted on [vercel](https://react-redux-avbl.vercel.app/)
 
 ### CI/CD
 
-I am using the bitbucket pipeline to do a continuous delivery to my [Dockerhub](https://hub.docker.com/repository/docker/deepaky193/personal_finance_app)
+Using github actions to do a continuous delivery to my [Dockerhub](https://hub.docker.com/repository/docker/deepaky193/personal_finance_app)
 
 ### Backend
 
