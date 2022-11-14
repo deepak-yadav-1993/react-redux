@@ -29,4 +29,4 @@ jobs:
           cache: "yarn"
       - run: yarn install
       - run: yarn lint
-      - run: yarn build
+      - run: CI='' yarn build
