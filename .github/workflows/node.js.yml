@@ -11,6 +11,15 @@ on:
       - Dockerfile
       - nginx.conf
       - .github/*
+  pull_request:
+    types:
+      - closed
+    paths:
+      - src/**
+      - package*.json
+      - Dockerfile
+      - nginx.conf
+      - .github/*
 
 jobs:
   test:
@@ -33,7 +42,7 @@ jobs:
       - run: CI='' yarn build
   docker_publish:
     runs-on: ubuntu-latest
-    if: github.event_name == 'pull_request' && github.event.action == 'closed' && github.event.pull_request.merged == true
+    if: github.event.pull_request.merged == true
 
     steps:
       - name: Set up QEMU
@@ -53,7 +62,7 @@ jobs:
 
   deploy:
     runs-on: ubuntu-latest
-    if: github.event_name == 'pull_request' && github.event.action == 'closed' && github.event.pull_request.merged == true
+    if: github.event.pull_request.merged == true
     steps:
       - name: Checkout
         uses: actions/checkout@v2
