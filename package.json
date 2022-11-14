@@ -27,6 +27,7 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "publishImage": "./scripts/build.sh",
+    "lint": "eslint './src/**/*.{ts,tsx,js}'",
     "lint-fix": "eslint --fix './src/**/*.{ts,tsx,js}'",
     "prettier-format-code": "prettier  --write --config .prettierrc.json './src/**/*.{ts,tsx,js}'",
     "prettier-format-css": "prettier  --write --config .prettierrc.json './src/**/*.{css,scss}'",
