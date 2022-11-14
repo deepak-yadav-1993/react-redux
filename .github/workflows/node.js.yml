@@ -11,9 +11,6 @@ on:
       - Dockerfile
       - nginx.conf
 
-  pull_request:
-    branches: ["develop"]
-
 jobs:
   build:
     runs-on: ubuntu-latest
