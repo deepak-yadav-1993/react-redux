@@ -10,6 +10,7 @@ on:
       - package*.json
       - Dockerfile
       - nginx.conf
+      - .github/*
 
 jobs:
   test:
