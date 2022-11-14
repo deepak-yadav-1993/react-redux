@@ -1,16 +1,14 @@
 # Deploy to Vercel
 
-name: Deploy CI
+name: Deploy to Vercel
 
 on:
   push:
     branches: ["develop"]
-  pull_request:
-    types: [opened, synchronize, reopened]
 
 jobs:
   if_merged:
-    if: ${{ github.event.pull_request.merged == true && !contains(github.event.head_commit.message, '[skip ci]')}}
+    if: github.event.pull_request.merged == true && !contains(github.event.head_commit.message, '[skip ci]')
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
