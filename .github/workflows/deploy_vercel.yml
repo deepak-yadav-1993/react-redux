@@ -8,7 +8,7 @@ on:
 
 jobs:
   if_merged:
-    if: github.event.pull_request.merged == true && !contains(github.event.head_commit.message, '[skip ci]')
+    if: github.event.pull_request.merged == true
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
