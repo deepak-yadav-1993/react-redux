@@ -2,8 +2,7 @@ name: Docker Publish
 
 on:
   push:
-    branches:
-      - "develop"
+    branches: ["develop"]
 
 jobs:
   docker:
