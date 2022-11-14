@@ -10,13 +10,12 @@ on:
       - package*.json
       - Dockerfile
       - nginx.conf
-      
+
   pull_request:
-    branches: [ "develop" ]
+    branches: ["develop"]
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
 
     strategy:
@@ -25,16 +24,15 @@ jobs:
         # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
 
     steps:
-    - uses: actions/checkout@v3
-    - name: Use Node.js ${{ matrix.node-version }}
-      uses: actions/setup-node@v3
-      with:
-        node-version: ${{ matrix.node-version }}
-        cache: 'yarn'
-    - run: yarn set version berry
-    - run: yarn install
-    - run: yarn lint
-    - run: yarn build
-    - run: export FRONTEND=deepaky193/personal_finance_app:latest
-    - run: docker login --username ${{ secrets.DOCKER_USERID }} --password ${{ secrets.DOCKER_PASSWORD }}
-    - run: yarn publishImage
+      - uses: actions/checkout@v3
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: "yarn"
+      - run: yarn install
+      - run: yarn lint
+      - run: yarn build
+      - run: export FRONTEND=deepaky193/personal_finance_app:latest
+      - run: docker login --username ${{ secrets.DOCKER_USERID }} --password ${{ secrets.DOCKER_PASSWORD }}
+      - run: yarn publishImage
